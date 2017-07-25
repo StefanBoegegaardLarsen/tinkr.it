@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Log in</title>
+	<link rel="stylesheet" type="text/css" href="/styles/signup.css">
+</head>
+<body>
+	<div id="signupHeader">
+		<div id="logo"></div>
+	</div>
+	<div id="signupBodyContainer">
+		<div id="signupContainer">
+			<div id="stepContainers">
+				<div id="stepOneContainer" class="stepContainer">
+					<div id="stepContainerTop">
+						<h1 class="signupH1">Log in to <span class='changeColor'>tinkr.it</span></h1><br>
+						<p>Input your email and password here</p>
+						<input type="email" name="txtEmail" id="txtEmail" placeholder="Email" autocomplete="new-password">
+						<input type="password" name="txtUserPass" id="txtUserPass" placeholder="password" autocomplete="new-password">
+						<p><span class="txtFeedBack"></span></p>
+					</div>
+					<div id="stepContainerBottom">
+						<p>Don't have an account? <a href="/signup">get one here</a></p>
+						<button type="button" id="btnLogin">Login</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.slim.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script>
+
+		var socket = io.connect("localhost:3334");
+
+		var sEmail;
+		var sUserPass;
+
+		$( document ).ready(function() {
+			var retrievedObject = localStorage.getItem('rememberLogin');
+			if (retrievedObject != null) {
+				var parsedToken = JSON.parse(retrievedObject);
+				if (parsedToken.token == "secretToken") {
+					window.location.assign('/dash');
+				}
+			}
+			$("#stepOneContainer").css('visibility','visible').hide().fadeIn('slow');
+			$("#stepOneContainer").addClass("moveFromRightToMiddle");
+		});
+
+		$("#stepOneContainer").keyup(function(event){
+			if(event.keyCode == 13){
+				login();
+			}
+		});
+
+		$("#btnLogin").click(function(){
+			login();
+		});
+
+		var errorVisible = false;
+
+		$("#txtEmail, #txtUserPass").focus(function(){
+			$(this).css({"border":"none"});
+			$(this).css({"border-bottom":"1px solid #c7c7c7"});
+			if (errorVisible == true){
+				$(".txtFeedBack").remove();
+				errorVisible = false;
+			}
+		});
+
+		function login(){
+			sEmail = $("#txtEmail").val();
+			sUserPass = $("#txtUserPass").val();
+			$(".txtFeedBack").text("");
+			if (sUserPass != "" && sEmail != "") {
+				socket.emit("Login attempt", {"email":sEmail, "pass":sUserPass});
+				socket.on("Correct login", function(jData){
+					var rememberLogin = { 'token': jData.token};
+					var userId = jData.userId;
+
+					// Put the object into localstorage
+					localStorage.setItem('rememberLogin', JSON.stringify(rememberLogin));
+					localStorage.setItem('userId', userId);
+
+					// Retrieve the object from localstorage
+					var retrievedObject = localStorage.getItem('rememberLogin');
+
+					var message = jData.message;
+
+					$(".txtFeedBack").text(message);
+					window.location.assign('/dash');
+				});
+				socket.on("Wrong login", function(jData){
+					var message = jData.message;
+					$(".txtFeedBack").text(message);
+				});
+				socket.on("Please enter valid email and pass", function(jData){
+					var message = jData.message;
+					$(".txtFeedBack").text(message);
+				});
+			} else {
+				console.log("Login function");
+
+				$("#txtEmail").css({"border":"1px solid #E95A5A"});
+				$("#txtUserPass").css({"border":"1px solid #E95A5A"});
+				if (errorVisible == false){
+					$(".txtFeedBack").text("Please fill out both fields");
+					errorVisible = true;
+				}
+			}
+		}
+
+
+
+	</script>
+</body>
+</html>

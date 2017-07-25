@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>tinkr.it</title>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/styles/signup.css">
+</head>
+<body>
+	<div id="signupHeader">
+		<div id="logo"></div>
+	</div>
+
+	<div id="signupBodyContainer">
+		<div id="signupContainer">
+			<div id="navigation">
+				<div id="stepBorder"></div>
+				<div id="stepBorderRed"></div>
+				<div id="steps">
+					<div id="stepOne" class="step">1</div>
+					<div id="stepTwo" class="step">2</div>
+					<div id="stepThree" class="step">3</div>
+					<div id="stepFour" class="step">4</div>
+				</div>
+			</div>
+			<div id="stepContainers">
+				<div id="stepOneContainer" class="stepContainer">
+					<div id="stepContainerTop">
+						<h1 class="signupH1">Welcome to <span class='changeColor'>tinkr.it</span></h1><br>
+						<p>We know you as <span>email@email.com</span></p>
+						<p>Would you like us to call you something else?</p>
+						<input type="text" name="txtFirstName" placeholder="First name">
+						<input type="text" name="txtLastName" placeholder="Last name">
+					</div>
+					<div id="stepContainerBottom">
+						<p id="btnHelp">Need help?</p>
+						<button id="btnNextToTwo">Next</button>
+					</div>
+				</div>
+				<div id="stepTwoContainer" class="stepContainer">TWO
+					<button id="btnBackToOne">Back</button>
+					<button id="btnNextToThree">Next</button>
+				</div>
+				<div id="stepThreeContainer" class="stepContainer">THREE
+					<button id="btnBackToTwo">Back</button>
+					<button id="btnNextToFour">Next</button>
+				</div>
+				<div id="stepFourContainer" class="stepContainer">FOUR
+					<button id="btnBackToThree">Back</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			$("#stepBorderRed").animate({width: 100}, 500 );
+			$("#stepOneContainer").css('visibility','visible').hide().fadeIn('slow');
+			$("#stepOneContainer").addClass("moveFromRightToMiddle");
+			setTimeout(function(){
+				$("#stepOne").addClass("stepActive");
+			}, 300)
+		});
+
+		$("#btnNextToTwo, #stepTwo").click(function(){
+			$("#stepBorderRed").animate({width: 160}, 400 );
+			$("#stepOneContainer").removeClass("moveFromLeftToMiddle");
+			$("#stepOneContainer").removeClass("moveFromMiddleToLeft");
+			$("#stepOneContainer").removeClass("moveFromRightToMiddle");
+			$("#stepOneContainer").addClass("moveFromMiddleToLeft");
+			$("#stepTwoContainer").css('visibility','visible').hide().fadeIn('slow');
+			$("#stepTwoContainer").removeClass("moveFromMiddleToRight");
+			$("#stepTwoContainer").addClass("moveFromRightToMiddle");
+			setTimeout(function(){
+				$("#stepOneContainer").css('visibility','hidden').hide().fadeOut('slow');
+			}, 32)
+			setTimeout(function(){
+				$("#stepTwo").removeClass("stepNotActive");
+				$("#stepTwo").addClass("stepActive");
+			}, 350)
+		});
+
+		$("#btnBackToOne, #stepOne").click(function(){
+			$("#stepTwo").addClass("stepNotActive");
+			$("#stepBorderRed").animate({width: 100}, 400 );
+			$("#stepTwoContainer").css('visibility','hidden').hide().fadeOut('slow');
+			$("#stepOneContainer").removeClass("moveFromMiddleToLeft");
+			$("#stepOneContainer").css('visibility','visible').hide().fadeIn('slow');
+			$("#stepTwoContainer").removeClass("moveFromRightToMiddle");
+			$("#stepOneContainer").addClass("moveFromLeftToMiddle");
+			$("#stepTwoContainer").addClass("moveFromMiddleToRight");
+		});
+
+		$("#btnNextToThree, #stepThree").click(function(){
+			$("#stepBorderRed").animate({width: 260}, 400 );
+			$("#stepTwoContainer").css('visibility','hidden').hide().fadeOut('slow');
+			$("#stepTwoContainer").removeClass("moveFromLeftToMiddle");
+			$("#stepTwoContainer").removeClass("moveFromMiddleToLeft");
+			$("#stepThreeContainer").css('visibility','visible').hide().fadeIn('slow');
+			$("#stepTwoContainer").removeClass("moveFromRightToMiddle");
+			$("#stepTwoContainer").addClass("moveFromMiddleToLeft");
+			$("#stepThreeContainer").removeClass("moveFromMiddleToRight");
+			$("#stepThreeContainer").addClass("moveFromRightToMiddle");
+			setTimeout(function(){
+				$("#stepThree").removeClass("stepNotActive");
+				$("#stepThree").addClass("stepActive");
+			}, 350)
+		});
+
+		$("#btnBackToTwo, #stepTwo").click(function(){
+			$("#stepThreeContainer").css('visibility','hidden').hide().fadeOut('slow');
+			$("#stepTwoContainer").css('visibility','visible').hide().fadeIn('slow');
+			$("#stepThree").addClass("stepNotActive");
+			$("#stepBorderRed").animate({width: 160}, 400 );
+			$("#stepTwoContainer").removeClass("moveFromMiddleToLeft");
+			$("#stepThreeContainer").removeClass("moveFromRightToMiddle");
+			$("#stepTwoContainer").addClass("moveFromLeftToMiddle");
+			$("#stepThreeContainer").addClass("moveFromMiddleToRight");
+		});
+
+		$("#btnNextToFour, #stepFour").click(function(){
+			$("#stepBorderRed").animate({width: 360}, 400 );
+			$("#stepFourContainer").css('visibility','visible').hide().fadeIn('slow');
+			$("#stepThreeContainer").css('visibility','hidden').hide().fadeOut('slow');
+			$("#stepThreeContainer").removeClass("moveFromLeftToMiddle");
+			$("#stepThreeContainer").removeClass("moveFromMiddleToLeft");
+			$("#stepThreeContainer").removeClass("moveFromRightToMiddle");
+			$("#stepThreeContainer").addClass("moveFromMiddleToLeft");
+			$("#stepFourContainer").removeClass("moveFromMiddleToRight");
+			$("#stepFourContainer").addClass("moveFromRightToMiddle");
+			setTimeout(function(){
+				$("#stepFour").removeClass("stepNotActive");
+				$("#stepFour").addClass("stepActive");
+			}, 350)
+		});
+
+		$("#btnBackToThree, #stepThree").click(function(){
+			$("#stepFour").addClass("stepNotActive");
+			$("#stepFourContainer").css('visibility','hidden').hide().fadeOut('slow');
+			$("#stepThreeContainer").css('visibility','visible').hide().fadeIn('slow');
+			$("#stepBorderRed").animate({width: 260}, 400 );
+			$("#stepThreeContainer").removeClass("moveFromMiddleToLeft");
+			$("#stepFourContainer").removeClass("moveFromRightToMiddle");
+			$("#stepThreeContainer").addClass("moveFromLeftToMiddle");
+			$("#stepFourContainer").addClass("moveFromMiddleToRight");
+		});
+
+
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

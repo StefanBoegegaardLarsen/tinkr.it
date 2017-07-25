@@ -1,0 +1,2898 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>tinkr</title>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700" rel="stylesheet">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+	<link id="pagestyle" rel="stylesheet" type="text/css" href="/styles/dashboard-light.css">
+	<link rel="icon" type="image/png" href="images/favicon.png" />
+	<script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+</head>
+<!-- <body oncontextmenu="return false;"> -->
+<body oncontextmenu="return false;">
+
+	<div id="createGroupBackground">
+		<div id="createGroupContainer">
+			<p>Create group</p>
+			<p>Group name</p>
+			<input id="txtCreateGroupName" type="text" placeholder="Give your group a name...">
+			<p>Add members to your group</p>
+			<div id="groupMembersContainer"></div>
+			<button id="btnCreateGroup">Create Group</button>
+		</div>
+	</div>
+
+	<div id="createClassBackground">
+		<div id="createClassContainer">
+			<p>Create class</p>
+			<p>Class name</p>
+			<input id="txtCreateClassName" type="text" placeholder="Give your class a name...">
+			<p>Add members to your class</p>
+			<div id="classMembersContainer"></div>
+			<button id="btnCreateClass">Create Group</button>
+		</div>
+	</div>
+
+	<div id="header">
+		<div id="logo"></div>
+		<div id="navigation">
+			<div id="btnChat" class="btnNav">Chat</div>
+			<div id="btnPosts" class="btnNav">Posts</div>
+			<div id="btnAssignments" class="btnNav">Assignments</div>
+		</div>
+		<div id="preferences">
+			<div class="hexagon">
+				<div class="hexTop"></div>
+				<div class="hexBottom"></div>
+			</div>
+			<div id="usernameAndLogout">
+				<div id="txtUsername"><p class="txtUsername">{{USERNAME}}</p></div>
+				<a id="btnLogout" href="/logout">Logout</a>
+			</div>
+		</div>
+	</div>
+
+	<div id="contentContainer">
+		<div id="leftSidebar">
+			<div id="txtFavorites">
+				<i class="fa fa-heart" aria-hidden="true"></i>
+				<div class="titleAndPlus">
+					<div>
+						<p class="txtHeader">Favorites</p>
+						<div id="btnCreateFavourite" class="btnPlusCreate"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
+					</div>
+					<div id="txtFavouriteNames"></div>
+				</div>
+			</div>
+
+			<div id="txtClasses">
+				<i class="fa fa-users" aria-hidden="true"></i>
+				<div class="titleAndPlus">
+					<div id="titleAndPlusContainerClasses">
+						<p id="txtHeaderClass" class="txtHeader">Classes</p>
+						<div id="btnCreateClassIcon" class="btnPlusCreate"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
+					</div>
+					<div id="txtClassNames"></div>
+				</div>
+			</div>
+
+			<div id="txtGroups">
+				<i class="fa fa-users" aria-hidden="true"></i>
+				<div class="titleAndPlus">
+					<div id="titleAndPlusContainerGroups">
+						<p id="txtHeaderGroup" class="txtHeader">Groups</p>
+						<div id="btnCreateGroupIcon" class="btnPlusCreate"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
+					</div>
+					<div id="txtGroupNames"></div>
+				</div>
+			</div>
+
+			<div id="txtDirectMessages">
+				<i class="fa fa-user" aria-hidden="true"></i>
+				<div class="titleAndPlus">
+					<div>
+						<p id="txtHeaderDirectMessages" class="txtHeader">Direct Messages</p>
+						<div id="btnCreateDirectMessage" class="btnPlusCreate"><i class="fa fa-plus-circle" aria-hidden="true"></i></div>
+					</div>
+					<div id="txtDirectMessagesNames"></div>
+				</div>
+			</div>
+		</div>
+
+		<div id="center">
+			<div id="directMessagesContainer"></div>
+			<div id="chatContainer">
+				<div id="sentMessagesContainer"></div>
+				<div id="sendMessageContainer">
+					<div id="chatAttachFile">
+						<input type="file" id="chat_input" style="display: none;" />
+						<label class="inputfile" for="chat_input"><i id='chatPaperclip' class="fa fa-paperclip" aria-hidden="true"></i></label>
+					</div>
+					<input id="txtMessage" type="text" name="txtMessage" placeholder="Your message ..">
+					<button id="btnSend">SEND</button>
+				</div>
+			</div>
+
+			<div id="postContainer">
+				<div id="existingPostsContainer"></div>
+				<div id="createPostContainer">
+					<button id="btnToggleCreatePostContainer">+</button>
+					<p id="txtCreatePostTitle">Create a new post</p>
+					<p id="txtGivePostTitle" class="postTitle">Give your post a title</p>
+					<input id="txtPostTitle" type="text" placeholder="Add your title here...">
+					<p id="txtGivePostDesc" class="postTitle">Give your post a description</p>
+					<textarea id="txtPostDesc" type="text" placeholder="Add your description here..."></textarea>
+					<label>Include File: <input type="file" id="post_input" /></label>
+					<button id="btnCreatePost">Post!</button>
+				</div>
+			</div>
+
+			<div id="assignmentContainer">
+				<div id="existingAssignmentsContainer"></div>
+				<div id="createAssignmentContainer">
+					<button id="btnToggleCreateAssignmentContainer">+</button>
+					<p id="txtCreateAssignmentTitle">Create a new assignment</p>
+					<div id="titleAndDates">
+						<div class="titleDateContainer">
+							<p id="txtGiveAssignmentTitle" class="postTitle">Give your assignment a title</p>
+							<input id="txtAssignmentTitle" type="text" placeholder="Add your title here...">
+						</div>
+						<div class="titleDateContainer">
+							<p id="txtGiveAssignmentTitle" class="postTitle">Deadline</p>
+							<input type="text" id="datepicker" placeholder="Click to select a date" />
+						</div>
+					</div>
+					<p id="txtGiveAssignmentDesc" class="postTitle">Give your assignment a description</p>
+					<textarea id="txtAssignmentDesc" type="text" placeholder="Add your description here..."></textarea>
+					<label>Include File: <input type="file" id="assignment_input" /></label>
+					<button id="btnCreateAssignment">Post!</button>
+				</div>
+			</div>
+		</div>
+
+		<div id="rightSidebar">
+			<div id="topButtons">
+				<button id="btnSearchGlobal">Global</button>
+				<button id="btnSearchLocal">Local</button>
+			</div>
+
+			<div id="searchField">
+				<input type="text" name="txtSearch" id="txtSearch" placeholder="Enter search here...">
+				<button id="btnSearch"><i class="fa fa-search" aria-hidden="true"></i>
+				</button>
+			</div>
+
+			<div id="searchResults">
+				<div id="feedbackResults"></div>
+				<div id="chatResults"></div>
+				<div id="postResults"></div>
+				<div id="assignmentResults"></div>
+				<div id="userResults"></div>
+			</div>
+
+			<p id="bottomButtonsText">View all files or members</p>
+			<div id="bottomButtons">
+				<button id="btnSearchFiles"><i class="fa fa-paperclip" aria-hidden="true"></i> Files</button>
+				<button id="btnSearchMembers"><i class="fa fa-smile-o" aria-hidden="true"></i> Members</button>
+			</div>
+
+			<div id="memberAndFileResults">
+				<div id="memberAndFileFeedback"></div>
+				<div id="memberResults"></div>
+				<div id="fileChatResults"></div>
+				<div id="filePostResults"></div>
+				<div id="fileAssignmentResults"></div>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.slim.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<script src="/siofu/client.js"></script>
+
+	<script>
+
+	// oSocket.emit 						-> only that specific socket/client
+	// io.emit			 						-> all sockets
+	// oSocket.broadcast.emit		-> all sockets EXCEPT the one that triggers the action
+
+	var socket = io.connect("localhost:3334");
+
+	var chatUploader = new SocketIOFileUpload(socket);
+	chatUploader.listenOnSubmit(document.getElementById("btnSend"), document.getElementById("chat_input"));
+
+	var postUploader = new SocketIOFileUpload(socket);
+	postUploader.listenOnSubmit(document.getElementById("btnCreatePost"), document.getElementById("post_input"));
+
+	var assignmentUploader = new SocketIOFileUpload(socket);
+	assignmentUploader.listenOnSubmit(document.getElementById("btnCreateAssignment"), document.getElementById("assignment_input"));
+
+	$(document).ready(function(){
+
+		$( "#datepicker" ).datepicker({
+			dateFormat: 'yy, mm, dd'
+		});
+
+		var colorTheme = localStorage.getItem("colorTheme");
+
+		if (colorTheme == "darkTheme") {
+			darkTheme();
+		} else {
+			lightTheme();
+		}
+
+		var userIdLoggedIn = localStorage.getItem("userId");
+
+		socket.emit("Client requesting username", userIdLoggedIn);
+
+		if (localStorage.getItem("directMessages") != null){
+			var openConversations = localStorage.getItem("directMessages");
+			openConversations = openConversations.split(",");
+			for (var i = 0; i < openConversations.length; i++){
+				socket.emit("Client requesting messages for direct conversation", {"clickedUsernameId":openConversations[i], "currentUserId":userIdLoggedIn, "load":true});
+			}
+		} else {
+			console.log("no open conversations");
+		}
+
+
+	// *****************************************************************************
+				// LOGIN
+	// *****************************************************************************
+
+	var retrievedObject = localStorage.getItem('rememberLogin');
+	var parsedToken = JSON.parse(retrievedObject);
+
+	if (parsedToken.token != "secretToken") {
+		window.location.assign('/login');
+	}
+
+	setTimeout(function(){
+		if ($('#txtGroupNames').children().length == 0) {
+			// $("#sentMessagesContainer").css({"background":"url('/images/emptystate.png')"});
+			$("#sentMessagesContainer").html("<img src='/images/emptystate.png' style='width: 75%;'/>");
+		}
+	}, 1000);
+
+
+	// *****************************************************************************
+				// GET LAST LOCATION
+	// *****************************************************************************
+
+	if (localStorage.getItem("lastRoom") == null) {
+		localStorage.setItem("lastRoom", "gA");
+		localStorage.setItem("lastLocation", "Chat");
+		localStorage.setItem("lastLocationContainer", "chatContainer");
+		$("#txtMessage").focus();
+		socket.emit("The chat tab is active");
+	}
+
+	lastLocation = localStorage.getItem("lastLocation");
+	lastRoom = localStorage.getItem("lastRoom");
+	var userId = localStorage.getItem("userId");
+	socket.emit("Client requesting all load information", {"lastLocation":lastLocation, "lastRoom":lastRoom, "userId":userId});
+
+	$("#sentMessagesContainer").animate({ scrollTop: $('#chatContainer').prop("scrollHeight")}, 200);
+	$("#existingPostsContainer").animate({ scrollTop: $('#postContainer').prop("scrollHeight")}, 200);
+	$("#existingAssignmentsContainer").animate({ scrollTop: $('#assignmentContainer').prop("scrollHeight")}, 200);
+	lastLocation = localStorage.getItem("lastLocation");
+	lastLocationContainer = localStorage.getItem("lastLocationContainer");
+	lastRoom = localStorage.getItem("lastRoom");
+
+	$("#chatContainer, #postContainer, #assignmentContainer").hide();
+	$("#"+lastLocationContainer).show();
+
+	$("#btnChat, #btnPosts, #btnAssignments").removeClass("active");
+	$("#btn"+lastLocation).addClass("active");
+
+});
+
+	socket.on("Server sending username", function(jData){
+		var firstname = jData[0].firstname;
+		var lastname = jData[0].lastname;
+		var usernameLoggedIn = firstname + " " + lastname;
+		$("#txtUsername").html(usernameLoggedIn+"<i id='dropDownTheme' class='fa fa-caret-down' aria-hidden='true'></i>");
+	});
+
+// *****************************************************************************
+			// THEME
+// *****************************************************************************
+var deleteThemeMenuVisible = false;
+
+$(document).on('click', 'html, #dropDownTheme', function(event) {
+	var eventId = this.id;
+	if (deleteThemeMenuVisible == false && eventId == "dropDownTheme") {
+		$(this).append("<div class='themeMenu menu'><p id='dark'>Dark</p><p id='light'>Light</p></div>");
+		setTimeout(function(){
+			deleteThemeMenuVisible = true;
+		}, 100)
+	} else if (deleteThemeMenuVisible == true) {
+		setTimeout(function(){
+			deleteThemeMenuVisible = false;
+			$(".themeMenu").hide();
+		}, 100)
+	}
+});
+
+$(".themeMenu").click(function(event){
+	event.stopPropagation();
+});
+
+function lightTheme(){
+	document.getElementById("pagestyle").href="styles/dashboard-light.css";
+	localStorage.setItem("colorTheme", "lightTheme");
+};
+
+function darkTheme(){
+	document.getElementById("pagestyle").href="styles/dashboard-dark.css";
+	localStorage.setItem("colorTheme", "darkTheme");
+};
+
+$('body').on('click', '#dark', function(event) {
+	darkTheme();
+	console.log("clicked");
+});
+
+$('body').on('click', '#light', function(event) {
+	lightTheme();
+});
+
+
+
+
+// *****************************************************************************
+			// SERVER SENDING LOAD INFORMATION
+// *****************************************************************************
+
+socket.on("Server sending all classes", function(jData){
+	for (var i = 0; i < jData.length; i++) {
+		var className = jData[i].className;
+		var classId = jData[i].id;
+		if (jData[i].length > 15){
+			className = className.substr(0, 15)+"...";
+		}
+		$("#txtClassNames").append("<p id='"+classId+"' class='classes'>"+className+"</p>");
+	}
+});
+
+socket.on("Server sending all groups", function(jData){
+	for (var i = 0; i < jData.length; i++) {
+		var groupName = jData[i].groupName;
+		var groupId = jData[i].id;
+		if (jData[i].length > 15){
+			groupName = groupName.substr(0, 15)+"...";
+		}
+		$("#txtGroupNames").append("<p id='"+groupId+"' class='groups'>"+groupName+"</p>");
+	}
+});
+
+socket.on("Server sending all direct messages", function(jData){
+	for (var i = 0; i < jData.length; i++) {
+		var firstname = jData[i].firstname;
+		var lastname = jData[i].lastname;
+		var userId = localStorage.getItem("userId");
+
+		if (userId != jData[i].id) {
+			$("#txtDirectMessagesNames").append("<div class='dmUsername'><p id='"+jData[i].id+"' class='username'>"+firstname+" "+lastname+"</p><i class='fa fa-times' aria-hidden='true'></i></div>");
+		}
+	}
+});
+
+var currentInterval;
+var stopAt;
+
+function getLoadInformation(jData){
+	$(".groups, .classes, .directMessages").css({"color":"#6e6d6d", "font-weight":"300"});
+	$("#"+lastRoom).css({"color":"#E95A5A", "font-weight":"500"});
+
+	if (lastLocation == ""){
+		lastLocation = "Chat";
+	} else if(lastLocation == "Chat"){
+		$("#sentMessagesContainer").empty();
+		$("#txtMessage").focus();
+		for (var i = 0; i < jData.length; i++) {
+			var firstname = jData[i].firstname;
+			var lastname = jData[i].lastname;
+			var sUsername = firstname + " " + lastname;
+			var sMessage = jData[i].chatMessage;
+			var sTimestamp = jData[i].timestamp;
+			var sMessageId = sMessage.replace(/\s+/g, '');
+			var chatId = jData[i].chatId;
+			var poster = jData[i].poster;
+			var sUpload = jData[i].chatUpload;
+			var userId = localStorage.getItem("userId");
+			var profileImage = '<div class="profileImage"><div class="hexagon"><div class="hexTop"></div><div class="hexBottom"></div></div></div>';
+			var uploadImg = '<a href="../uploads/'+sUpload+'" target="new"><img src="/uploads/'+sUpload+'" style="max-height: 150px; max-width: 400px";></a>';
+			var uploadTxt = '<a href="../uploads/'+sUpload+'" target="new"><p>'+sUpload+'</p></a>';
+			var imgOrTxt = "";
+
+			switch (sUpload.split('.').pop()){
+				case "jpg":
+				imgOrTxt = uploadImg;
+				break;
+				case "jpeg":
+				imgOrTxt = uploadImg;
+				break;
+				case "png":
+				imgOrTxt = uploadImg;
+				break;
+				case "gif":
+				imgOrTxt = uploadImg;
+				break;
+				case "pdf":
+				imgOrTxt = uploadTxt;
+				break;
+				case "zip":
+				imgOrTxt = uploadTxt;
+				break;
+				case "rar":
+				imgOrTxt = uploadTxt;
+				break;
+				case "txt":
+				imgOrTxt = uploadTxt;
+				break;
+				case "docx":
+				imgOrTxt = uploadTxt;
+				break;
+				case "doc":
+				imgOrTxt = uploadTxt;
+				break;
+				case "xlsx":
+				imgOrTxt = uploadTxt;
+				break;
+				default:
+				imgOrTxt = "";
+			}
+
+			if (poster == userId) {
+				$('#sentMessagesContainer').append('<div class="singleMessageContainerOwn">'+profileImage+'<div class="singleMessageContentOwn"><div class="nameTimeEditOwn"><div class="chatUsernameAndTimeOwn"><div id="'+poster+'" class="sChatUsernameOwn username">'+sUsername+'</div>'+'<div class="sChatTimestampOwn">'+sTimestamp+'</div></div><p id="btnChatSettings">...</p></div>'+'<div class="sChatMessageOwn" id="'+chatId+'">'+sMessage+'</div><div class="sUpload">'+imgOrTxt+'</div></div></div>');
+			} else {
+				$('#sentMessagesContainer').append('<div class="singleMessageContainer">'+profileImage+'<div class="singleMessageContent"><div class="nameTimeEdit"><div class="chatUsernameAndTime"><div id="'+poster+'" class="sChatUsername username">'+sUsername+'</div>'+'<div class="sChatTimestamp">'+sTimestamp+'</div></div></div>'+'<div class="sChatMessage" id="'+chatId+'">'+sMessage+'</div><div class="sUpload">'+imgOrTxt+'</div></div></div>');
+			}
+
+			$("#sentMessagesContainer").animate({ scrollTop: $('#sentMessagesContainer').prop("scrollHeight")}, 200);
+		}
+	} else if (lastLocation == "Posts") {
+		$("#existingPostsContainer").empty();
+		for (var i = 0; i < jData.length; i++) {
+			var firstname = jData[i].firstname;
+			var lastname = jData[i].lastname;
+			var sUsername = firstname + " " + lastname;
+			var sTitle = jData[i].postTitle;
+			var sDescription = jData[i].postDescription;
+			var sTimestamp = jData[i].timestamp;
+			var postId = jData[i].postId;
+			var poster = jData[i].poster;
+			var sUpload = jData[i].postUpload;
+			var userId = localStorage.getItem("userId");
+			var profileImage = '<div class="profileImage"><div class="hexagon"><div class="hexTop"></div><div class="hexBottom"></div></div></div>';
+			var uploadImg = '<a href="../uploads/'+sUpload+'" target="new"><img src="/uploads/'+sUpload+'" style="max-height: 150px; max-width: 400px";></a>';
+			var uploadTxt = '<a href="../uploads/'+sUpload+'" target="new"><p>'+sUpload+'</p></a>';
+			var imgOrTxt = "";
+
+			switch (sUpload.split('.').pop()){
+				case "jpg":
+				imgOrTxt = uploadImg;
+				break;
+				case "jpeg":
+				imgOrTxt = uploadImg;
+				break;
+				case "png":
+				imgOrTxt = uploadImg;
+				break;
+				case "gif":
+				imgOrTxt = uploadImg;
+				break;
+				case "pdf":
+				imgOrTxt = uploadTxt;
+				break;
+				case "zip":
+				imgOrTxt = uploadTxt;
+				break;
+				case "rar":
+				imgOrTxt = uploadTxt;
+				break;
+				case "txt":
+				imgOrTxt = uploadTxt;
+				break;
+				case "docx":
+				imgOrTxt = uploadTxt;
+				break;
+				case "doc":
+				imgOrTxt = uploadTxt;
+				break;
+				case "xlsx":
+				imgOrTxt = uploadTxt;
+				break;
+				default:
+				imgOrTxt = "";
+			}
+
+			if (poster == userId){
+				$('#existingPostsContainer').append('<div class="singlePostContainer">'+profileImage+'<div class="singlePostContent"><div class="usernameTimeAndEdit"><div class="postUsernameAndTime"><div id="'+poster+'" class="sPostUsername username">'+sUsername+'</div><div class="sPostTimestamp">'+sTimestamp+'</div></div><p id="btnPostSettings">...</p></div><div class="sPostTitle"  id="'+postId+'">'+sTitle+'</div><div class="sPostDescription" id="'+postId+'">'+sDescription+'</div><div class="sUpload">'+imgOrTxt+'</div></div></div>');
+			} else {
+				$('#existingPostsContainer').append('<div class="singlePostContainer">'+profileImage+'<div class="singlePostContent"><div class="usernameTimeAndEdit"><div class="postUsernameAndTime"><div id="'+poster+'" class="sPostUsername username">'+sUsername+'</div><div class="sPostTimestamp">'+sTimestamp+'</div></div></div><div class="sPostTitle"  id="'+postId+'">'+sTitle+'</div><div class="sPostDescription" id="'+postId+'">'+sDescription+'</div><div class="sUpload">'+imgOrTxt+'</div></div></div>');
+			}
+
+			$("#existingPostsContainer").animate({ scrollTop: $('#postContainer').prop("scrollHeight")}, 200);
+		}
+	} else if (lastLocation == "Assignments") {
+		$("#existingAssignmentsContainer").empty();
+		for (var i = 0; i < jData.length; i++) {
+			var firstname = jData[i].firstname;
+			var lastname = jData[i].lastname;
+			var sUsername = firstname + " " + lastname;
+			var sTitle = jData[i].assignmentTitle;
+			var sDescription = jData[i].assignmentDescription;
+			var sTimestamp = jData[i].timestamp;
+			var assignmentId = jData[i].assignmentId;
+			var startDate = jData[i].startDate;
+			var deadline = jData[i].deadline;
+			var poster = jData[i].poster;
+			var sUpload = jData[i].assignmentUpload;
+			var userId = localStorage.getItem("userId");
+			var profileImage = '<div class="profileImage"><div class="hexagon"><div class="hexTop"></div><div class="hexBottom"></div></div></div>';
+			var uploadImg = '<a href="../uploads/'+sUpload+'" target="new"><img src="/uploads/'+sUpload+'" style="max-height: 150px; max-width: 400px";></a>';
+			var uploadTxt = '<a href="../uploads/'+sUpload+'" target="new"><p>'+sUpload+'</p></a>';
+			var imgOrTxt = "";
+
+			switch (sUpload.split('.').pop()){
+				case "jpg":
+				imgOrTxt = uploadImg;
+				break;
+				case "jpeg":
+				imgOrTxt = uploadImg;
+				break;
+				case "png":
+				imgOrTxt = uploadImg;
+				break;
+				case "gif":
+				imgOrTxt = uploadImg;
+				break;
+				case "pdf":
+				imgOrTxt = uploadTxt;
+				break;
+				case "zip":
+				imgOrTxt = uploadTxt;
+				break;
+				case "rar":
+				imgOrTxt = uploadTxt;
+				break;
+				case "txt":
+				imgOrTxt = uploadTxt;
+				break;
+				case "docx":
+				imgOrTxt = uploadTxt;
+				break;
+				case "doc":
+				imgOrTxt = uploadTxt;
+				break;
+				case "xlsx":
+				imgOrTxt = uploadTxt;
+				break;
+				default:
+				imgOrTxt = "";
+			}
+
+			if (poster == userId){
+				$('#existingAssignmentsContainer').append('<div class="singleAssignmentContainer">'+profileImage+'<div class="singleAssignmentContent"><div class="usernameTimeAndEdit"><div class="assignmentUsernameAndTime"><div id="'+poster+'" class="sAssignmentUsername username">'+sUsername+'</div><div class="sAssignmentTimestamp">'+sTimestamp+'</div></div><div class="assignmentSettingsContainer"><p id="btnAssignmentSettings">...</p></div></div><div class="sAssignmentTitle"  id="'+assignmentId+'">'+sTitle+'</div><div class="sAssignmentDescription" id="pD'+assignmentId+'">'+sDescription+'</div>\
+					<div class="sUpload">\
+						'+imgOrTxt+'\
+					</div>\
+					<div id="progressBar">\
+						<div class="circle circle-start"></div>\
+						<div id="container">\
+							<div class="bar" id="bar'+[i]+'"></div>\
+						</div>\
+						<div class="circle circle-end"></div>\
+					</div>\
+					<div id="dates'+assignmentId+'" class="dates"><p>'+startDate+'</p><p>'+deadline+'</p></div>\
+				</div></div></div>');
+			} else {
+				$('#existingAssignmentsContainer').append('<div class="singleAssignmentContainer">'+profileImage+'<div class="singleAssignmentContent"><div class="usernameTimeAndEdit"><div class="assignmentUsernameAndTime"><div id="'+poster+'" class="sAssignmentUsername username">'+sUsername+'</div><div class="sAssignmentTimestamp">'+sTimestamp+'</div></div><div class="assignmentSettingsContainer"></div></div><div class="sAssignmentTitle"  id="'+assignmentId+'">'+sTitle+'</div><div class="sAssignmentDescription" id="pD'+assignmentId+'">'+sDescription+'</div>\
+					<div class="sUpload">\
+						'+imgOrTxt+'\
+					</div>\
+					<div id="progressBar">\
+						<div class="circle circle-start"></div>\
+						<div id="container">\
+							<div class="bar" id="bar'+[i]+'"></div>\
+						</div>\
+						<div class="circle circle-end"></div>\
+					</div>\
+					<div id="dates'+assignmentId+'" class="dates"><p>'+startDate+'</p><p>'+deadline+'</p></div>\
+				</div></div></div>');
+			}
+
+			$("#existingAssignmentsContainer").animate({ scrollTop: $('#assignmentContainer').prop("scrollHeight")}, 200);
+
+			var containerWidth;
+
+			var startDateDB = jData[i].startDate;
+			startDate = new Date(startDateDB);
+
+			var deadline = jData[i].deadline;
+			deadline = new Date(deadline);
+
+			var currentDate = new Date;
+			var now = Date.now();
+			var day = currentDate.getDate();
+			var month = currentDate.getMonth();
+			var year = currentDate.getFullYear();
+			currentDate = new Date(year, month, day);
+
+			var fullTime = deadline - startDate;
+			fullTime = fullTime / 1000 / 60 / 60 / 24;
+
+			var timePassed = currentDate - startDate;
+			timePassed = timePassed / 1000 / 60 / 60 / 24;
+
+			var difference = timePassed / fullTime * 100;
+
+			var currentIndex = i;
+			var intervalObj = {};
+
+			containerWidth = $("#container").width();
+			stopAt = containerWidth * difference / 100;
+			$("#bar"+currentIndex).removeClass ("animated");
+			currentInterval = "interval"+currentIndex;
+
+			Start(currentIndex, intervalObj, stopAt);
+
+				} // FOR END
+			} // ELSE END
+		} // FUNCTION END
+
+		function Start(currentIndex, intervalObj, stopAt) {
+			$("#bar"+currentIndex).addClass("animated");
+			$("#bar"+currentIndex).removeAttr("style");
+
+			intervalObj[currentIndex] = setInterval(function(){
+				Stop(currentIndex, stopAt, intervalObj);
+			}, 10);
+		}
+
+		function Stop(currentIndex, stopAt, intervalObj) {
+			var elem = document.getElementById("bar"+currentIndex);
+			var style = window.getComputedStyle (elem, null);
+			var frame = style.getPropertyValue("width");
+			var width = parseInt(frame,10);
+
+			if (width > stopAt) {
+				elem.style.webkitAnimationPlayState = "paused";
+				clearInterval(intervalObj[currentIndex]);
+			}
+		}
+
+		socket.on("Server sending load information for clicked location", function(jData){
+			getLoadInformation(jData);
+		});
+
+		socket.on("Server sending load information", function(jData){
+			getLoadInformation(jData);
+		});
+
+		var lastLocation = "chat";
+		var lastLocationContainer = "chatContainer";
+		var lastRoom = "chat";
+
+		CKEDITOR.replace("txtPostDesc");
+		CKEDITOR.replace("txtAssignmentDesc");
+
+		$("#btnChat").click(function(){
+			$("#postContainer").hide();
+			$("#assignmentContainer").hide();
+			$("#chatContainer").show();
+			$("#btnChat").addClass("active");
+			$("#btnPosts").removeClass("active");
+			$("#btnAssignments").removeClass("active");
+			localStorage.setItem("lastLocation", "Chat");
+			localStorage.setItem("lastLocationContainer", "chatContainer");
+		});
+
+		$("#btnPosts").click(function(){
+			$("#chatContainer").hide();
+			$("#assignmentContainer").hide();
+			$("#postContainer").show().css({"display":"flex"});
+			$("#btnPosts").addClass("active");
+			$("#btnChat").removeClass("active");
+			$("#btnAssignments").removeClass("active");
+			localStorage.setItem("lastLocation", "Posts");
+			localStorage.setItem("lastLocationContainer", "postContainer");
+		});
+
+		$("#btnAssignments").click(function(){
+			$("#chatContainer").hide();
+			$("#postContainer").hide();
+			$("#assignmentContainer").show();
+			$("#btnAssignments").addClass("active");
+			$("#btnChat").removeClass("active");
+			$("#btnPosts").removeClass("active");
+			localStorage.setItem("lastLocation", "Assignments");
+			localStorage.setItem("lastLocationContainer", "assignmentContainer");
+		});
+
+		var userRole;
+
+		var userId = localStorage.getItem("userId");
+		socket.emit("Client requesting user role for user with id", userId);
+
+		socket.on("Server sending user role", function(jData){
+			userRole = jData[0].role;
+
+			if (userRole == 1){
+				$("#titleAndPlusContainerClasses").hover(function(){
+					$(this).find(".fa-plus-circle").show();
+				});
+			}
+
+			$("#titleAndPlusContainerClasses").mouseleave(function(){
+				$(this).find(".fa-plus-circle").hide();
+			});
+		});
+
+		$("#titleAndPlusContainerGroups").hover(function(){
+			$(this).find(".fa-plus-circle").show();
+		});
+
+		$("#titleAndPlusContainerGroups").mouseleave(function(){
+			$(this).find(".fa-plus-circle").hide();
+		});
+
+		var groupsOrClasses;
+		$('body').on('click', '.groups, .classes, #btnChat, #btnPosts, #btnAssignments', function(event) {
+
+			if (this.className == "groups" || this.className == "classes") {
+				if (this.className == "groups"){
+					groupsOrClasses = "groups";
+				} else if (this.className == "classes"){
+					groupsOrClasses = "classes";
+				}
+
+				lastRoom = this.id;
+				$(".groups, .classes").css({"color":"#6e6d6d", "font-weight":"300"});
+				$(this).css({"color":"#E95A5A", "font-weight":"500"});
+			} else {
+				lastRoom = localStorage.getItem("lastRoom");
+			}
+
+			if (membersOrFiles == "members" && localOrGlobal == "local") {
+				searchMembersLocal();
+			} else if (membersOrFiles == "files" && localOrGlobal == "local"){
+				searchFilesLocal();
+			}
+			localStorage.setItem("lastRoom", lastRoom);
+			lastLocation = localStorage.getItem("lastLocation");
+			socket.emit("Client sending clicked location id and lastLocation", {"lastRoom":lastRoom, "lastLocation":lastLocation});
+		});
+
+
+	// *****************************************************************************
+				// CHAT
+	// *****************************************************************************
+
+	socket.on("Send the message", function(jData){
+		var sMessage = jData.message;
+		var sUpload = jData.upload;
+	});
+
+	var filename;
+
+	$("input:file").change(function (){
+		filename = $("#chat_input").val();
+		var filepath = filename.match(/[^\\/]*$/)[0];
+		$("#chatAttachFile").empty().html("<i class='fa fa-check' aria-hidden='true' style='color: green; font-size: 1.55em;'></i>");
+	});
+
+	$("#btnSend").click(function(){
+		var sMessage = $("#txtMessage").val();
+
+		if ($("#chat_input").val() != ""){
+			var input = $("#chat_input").val();
+			var input = filename;
+			var sUpload = input.match(/[^\\/]*$/)[0];
+		}
+
+		var userId = localStorage.getItem("userId");
+		socket.emit("Client sending a new chat message", {"message":sMessage, "lastRoom":lastRoom, "messageType":"chat", "userId":userId, "upload":sUpload});
+	});
+
+	$('#txtMessage').keypress(function (e) {
+		var key = e.which;
+		if(key == 13) {
+			$('#btnSend').click();
+			$('#txtMessage').val("");
+			return false;
+		}
+	});
+
+	socket.on("Here is the new message which was just created", function(jData){
+		var sUsername = jData.sUsername;
+		var sMessage = jData.message;
+		var sTimestamp = jData.timestamp;
+		var sMessageId = sMessage.replace(/\s+/g, '');
+		var chatId = jData.insertId;
+		var poster = jData.userId;
+		var userId = localStorage.getItem("userId");
+		var sUpload = jData.upload;
+		var profileImage = '<div class="profileImage"><div class="hexagon"><div class="hexTop"></div><div class="hexBottom"></div></div></div>';
+		var uploadImg = '<a href="../uploads/'+sUpload+'" target="new"><img src="../uploads/'+sUpload+'" style="max-height: 150px; max-width: 300px";></a>';
+		var uploadTxt = '<a href="../uploads/'+sUpload+'" target="new"><p>'+sUpload+'</p></a>';
+		var imgOrTxt = "";
+
+		if ($("#chat_input").val() != "" && sUpload != "undefined"){
+			switch (sUpload.split('.').pop()){
+				case "jpg":
+				imgOrTxt = uploadImg;
+				break;
+				case "jpeg":
+				imgOrTxt = uploadImg;
+				break;
+				case "png":
+				imgOrTxt = uploadImg;
+				break;
+				case "gif":
+				imgOrTxt = uploadImg;
+				break;
+				case "pdf":
+				imgOrTxt = uploadTxt;
+				break;
+				case "zip":
+				imgOrTxt = uploadTxt;
+				break;
+				case "rar":
+				imgOrTxt = uploadTxt;
+				break;
+				case "txt":
+				imgOrTxt = uploadTxt;
+				break;
+				case "docx":
+				imgOrTxt = uploadTxt;
+				break;
+				case "doc":
+				imgOrTxt = uploadTxt;
+				break;
+				case "xlsx":
+				imgOrTxt = uploadTxt;
+				break;
+				default:
+				imgOrTxt = "";
+			}
+		}
+
+		if (poster == userId) {
+			$('#sentMessagesContainer').append('<div class="singleMessageContainerOwn">'+profileImage+'<div class="singleMessageContentOwn"><div class="nameTimeEditOwn"><div class="chatUsernameAndTimeOwn"><div id="'+poster+'" class="sChatUsernameOwn username">'+sUsername+'</div>'+'<div class="sChatTimestampOwn">'+sTimestamp+'</div></div><p id="btnChatSettings">...</p></div>'+'<div class="sChatMessageOwn" id="'+chatId+'">'+sMessage+'</div><div class="sUpload">'+imgOrTxt+'</div></div></div>');
+		} else {
+			$('#sentMessagesContainer').append('<div class="singleMessageContainer">'+profileImage+'<div class="singleMessageContent"><div class="nameTimeEdit"><div class="chatUsernameAndTime"><div id="'+poster+'" class="sChatUsername username">'+sUsername+'</div>'+'<div class="sChatTimestamp">'+sTimestamp+'</div></div></div>'+'<div class="sChatMessage" id="'+chatId+'">'+sMessage+'</div><div class="sUpload">'+imgOrTxt+'</div></div></div>');
+		}
+		$("#sentMessagesContainer").animate({ scrollTop: $('#chatContainer').prop("scrollHeight")}, 200);
+		chatAlert(sUsername, sMessage);
+	});
+
+
+	// *****************************************************************************
+			// POSTS
+	// *****************************************************************************
+
+	$("#txtPostTitle").click(function(){
+		$("#txtPostTitle").css({"border":"1px solid #E7E8EA"});
+	});
+
+	$("#btnCreatePost").click(function(){
+		var txtPostTitle = $("#txtPostTitle").val();
+		var txtPostDesc = CKEDITOR.instances["txtPostDesc"].getData();
+		var input = $("#post_input").val();
+		var txtPostUpload = input.match(/[^\\/]*$/)[0];
+
+		if (txtPostTitle == "" || txtPostDesc == ""){
+			if (txtPostTitle == "") {
+				$("#txtPostTitle").css({"border":"1px solid #E95A5A"});
+			}
+			if (txtPostDesc == "") {
+				$("#txtPostDesc").css({"border":"1px solid #E95A5A"});
+			}
+		} else {
+			lastRoom = localStorage.getItem("lastRoom");
+
+			hidePostContainer();
+			$("#txtPostTitle").val("");
+			CKEDITOR.instances['txtPostDesc'].setData('');
+			var userId = localStorage.getItem("userId");
+
+			socket.emit("Client sending the new post content", {"title":txtPostTitle, "description":txtPostDesc, "lastRoom":lastRoom, "messageType":"posts", "userId":userId, "upload":txtPostUpload});
+			$("#existingPostsContainer").animate({ scrollTop: $('#postContainer').prop("scrollHeight")}, 300);
+		}
+	});
+
+	var createPostContainerVisible = false;
+
+	function showPostContainer(){
+		$("#createPostContainer").animate({
+			top: "-=430"
+		}, 500, function() {
+			createPostContainerVisible = true;
+			$("#btnToggleCreatePostContainer").html("-");
+		});
+	}
+
+	function hidePostContainer(){
+		$("#createPostContainer").animate({
+			top: "+=430"
+		}, 200, function(){
+			createPostContainerVisible = false;
+			$("#btnToggleCreatePostContainer").html("+");
+		});
+	}
+
+	$("html, #btnToggleCreatePostContainer").click(function(event){
+		if (createPostContainerVisible == false && event.target.id == "btnToggleCreatePostContainer") {
+			showPostContainer();
+		} else if (createPostContainerVisible == true) {
+			hidePostContainer();
+		}
+	});
+
+	$("#createPostContainer").click(function(event){
+		event.stopPropagation();
+	});
+
+	socket.on("Server sending the new post which was just created", function(jData){
+		var sUsername = jData.username;
+		var sTitle = jData.newPostTitle;
+		var sDescription = jData.newPostDescription;
+		var sTimestamp = jData.timestamp;
+		var postId = jData.insertId;
+		var poster = jData.userId;
+		var sUpload = jData.newPostUpload;
+		var userId = localStorage.getItem("userId");
+		var profileImage = '<div class="profileImage"><div class="hexagon"><div class="hexTop"></div><div class="hexBottom"></div></div></div>';
+		var uploadImg = '<a href="../uploads/'+sUpload+'" target="new"><img src="../uploads/'+sUpload+'" style="max-height: 150px; max-width: 300px";></a>';
+		var uploadTxt = '<a href="../uploads/'+sUpload+'" target="new"><p>'+sUpload+'</p></a>';
+		var imgOrTxt = "";
+
+		if ($("#post_input").val() != ""){
+			switch (sUpload.split('.').pop()){
+				case "jpg":
+				imgOrTxt = uploadImg;
+				break;
+				case "jpeg":
+				imgOrTxt = uploadImg;
+				break;
+				case "png":
+				imgOrTxt = uploadImg;
+				break;
+				case "gif":
+				imgOrTxt = uploadImg;
+				break;
+				case "pdf":
+				imgOrTxt = uploadTxt;
+				break;
+				case "zip":
+				imgOrTxt = uploadTxt;
+				break;
+				case "rar":
+				imgOrTxt = uploadTxt;
+				break;
+				case "txt":
+				imgOrTxt = uploadTxt;
+				break;
+				case "docx":
+				imgOrTxt = uploadTxt;
+				break;
+				case "doc":
+				imgOrTxt = uploadTxt;
+				break;
+				case "xlsx":
+				imgOrTxt = uploadTxt;
+				break;
+				default:
+				imgOrTxt = "";
+			}
+		}
+
+		if (poster == userId){
+			$('#existingPostsContainer').append('<div class="singlePostContainer">'+profileImage+'<div class="singlePostContent"><div class="usernameTimeAndEdit"><div class="postUsernameAndTime"><div id="'+poster+'" class="sPostUsername username">'+sUsername+'</div><div class="sPostTimestamp">'+sTimestamp+'</div></div><p id="btnPostSettings">...</p></div><div class="sPostTitle"  id="'+postId+'">'+sTitle+'</div><div class="sPostDescription" id="'+postId+'">'+sDescription+'</div><div class="sUpload">'+imgOrTxt+'</div></div></div>');
+		} else {
+			$('#existingPostsContainer').append('<div class="singlePostContainer">'+profileImage+'<div class="singlePostContent"><div class="usernameTimeAndEdit"><div class="postUsernameAndTime"><div id="'+poster+'" class="sPostUsername username">'+sUsername+'</div><div class="sPostTimestamp">'+sTimestamp+'</div></div></div><div class="sPostTitle"  id="'+postId+'">'+sTitle+'</div><div class="sPostDescription" id="'+postId+'">'+sDescription+'</div><div class="sUpload">'+imgOrTxt+'</div></div></div>');
+		}
+
+		$("#existingPostsContainer").animate({ scrollTop: $('#postContainer').prop("scrollHeight")}, 200);
+		notificationAlert(sTitle, sDescription);
+	});
+
+
+	// *****************************************************************************
+			// ASSIGNMENTS
+	// *****************************************************************************
+
+	$("#txtAssignmentTitle").click(function(){
+		$("#txtAssignmentTitle").css({"border":"1px solid #E7E8EA"});
+	});
+
+	$("#datepicker").click(function(){
+		$("#datepicker").css({"border":"1px solid #E7E8EA"});
+	});
+
+	$("#btnCreateAssignment").click(function(){
+		var txtAssignmentTitle = $("#txtAssignmentTitle").val();
+		var txtAssignmentDesc = CKEDITOR.instances["txtAssignmentDesc"].getData();
+		var txtAssignmentDeadline = $("#datepicker").val();
+		var input = $("#assignment_input").val();
+		var txtAssignmentUpload = input.match(/[^\\/]*$/)[0];
+
+		if (txtAssignmentTitle == "" || txtAssignmentDesc == "" || txtAssignmentDeadline == ""){
+			if (txtAssignmentTitle == "") {
+				$("#txtAssignmentTitle").css({"border":"1px solid #E95A5A"});
+			}
+			if (txtAssignmentDesc == "") {
+				$("#txtAssignmentDesc").css({"border":"1px solid #E95A5A"});
+			}
+			if (txtAssignmentDeadline == "") {
+				$("#datepicker").css({"border":"1px solid #E95A5A"});
+			}
+		} else {
+			lastRoom = localStorage.getItem("lastRoom");
+
+			hideAssignmentContainer();
+			$("#txtAssignmentTitle").val("");
+			CKEDITOR.instances['txtAssignmentDesc'].setData('');
+			var userId = localStorage.getItem("userId");
+
+			socket.emit("Client sending the new assignment content", {"title":txtAssignmentTitle, "description":txtAssignmentDesc, "deadline":txtAssignmentDeadline, "lastRoom":lastRoom, "messageType":"assignments", "userId":userId, "upload":txtAssignmentUpload});
+
+			$("#existingAssignmentsContainer").animate({ scrollTop: $('#assignmentContainer').prop("scrollHeight")}, 300);
+		}
+	});
+
+	var createAssignmentContainerVisible = false;
+
+	function showAssignmentContainer(){
+		$("#createAssignmentContainer").animate({
+			top: "-=430"
+		}, 500, function() {
+			createAssignmentContainerVisible = true;
+			$("#btnToggleCreateAssignmentContainer").html("-");
+		});
+	}
+
+	function hideAssignmentContainer(){
+		$("#createAssignmentContainer").animate({
+			top: "+=430"
+		}, 200, function(){
+			createAssignmentContainerVisible = false;
+			$("#btnToggleCreateAssignmentContainer").html("+");
+		});
+	}
+
+	$("html, #btnToggleCreateAssignmentContainer").click(function(event){
+		if (createAssignmentContainerVisible == false && event.target.id == "btnToggleCreateAssignmentContainer") {
+			showAssignmentContainer();
+		} else if (createAssignmentContainerVisible == true) {
+			hideAssignmentContainer();
+		}
+	});
+
+	$("#createAssignmentContainer").click(function(event){
+		event.stopPropagation();
+	});
+
+	socket.on("Server sending the new assignment which was just created", function(jData){
+		var sUsername = jData.username;
+		var sTitle = jData.newAssignmentTitle;
+		var sDescription = jData.newAssignmentDescription;
+		var sTimestamp = jData.timestamp;
+		var assignmentId = jData.id;
+		var startDate = jData.startDate;
+		var deadline = jData.deadline;
+		var poster = jData.userId;
+		var sUpload = jData.newAssignmentUpload;
+		var profileImage = '<div class="profileImage"><div class="hexagon"><div class="hexTop"></div><div class="hexBottom"></div></div></div>';
+		var uploadImg = '<a href="../uploads/'+sUpload+'" target="new"><img src="../uploads/'+sUpload+'" style="max-height: 150px; max-width: 300px";></a>';
+		var uploadTxt = '<a href="../uploads/'+sUpload+'" target="new"><p>'+sUpload+'</p></a>';
+		var imgOrTxt = "";
+
+		if ($("#assignment_input").val() != ""){
+			switch (sUpload.split('.').pop()){
+				case "jpg":
+				imgOrTxt = uploadImg;
+				break;
+				case "jpeg":
+				imgOrTxt = uploadImg;
+				break;
+				case "png":
+				imgOrTxt = uploadImg;
+				break;
+				case "gif":
+				imgOrTxt = uploadImg;
+				break;
+				case "pdf":
+				imgOrTxt = uploadTxt;
+				break;
+				case "zip":
+				imgOrTxt = uploadTxt;
+				break;
+				case "rar":
+				imgOrTxt = uploadTxt;
+				break;
+				case "txt":
+				imgOrTxt = uploadTxt;
+				break;
+				case "docx":
+				imgOrTxt = uploadTxt;
+				break;
+				case "doc":
+				imgOrTxt = uploadTxt;
+				break;
+				case "xlsx":
+				imgOrTxt = uploadTxt;
+				break;
+				default:
+				imgOrTxt = "";
+			}
+		}
+
+		$('#existingAssignmentsContainer').append('<div class="singleAssignmentContainer">'+profileImage+'<div class="singleAssignmentContent"><div class="usernameTimeAndEdit"><div class="assignmentUsernameAndTime"><div id="'+poster+'" class="sAssignmentUsername username">'+sUsername+'</div><div class="sAssignmentTimestamp">'+sTimestamp+'</div></div><div class="assignmentSettingsContainer"><p id="btnAssignmentSettings">...</p></div></div><div class="sAssignmentTitle"  id="'+assignmentId+'">'+sTitle+'</div><div class="sAssignmentDescription" id="pD'+assignmentId+'">'+sDescription+'</div><div class="sUpload">'+imgOrTxt+'</div>\
+			<div id="progressBar">\
+				<div class="circle circle-start"></div>\
+				<div id="container">\
+					<div class="bar" id="bar"></div>\
+				</div>\
+				<div class="circle circle-end"></div>\
+			</div>\
+			<div id="dates'+assignmentId+'" class="dates"><p>'+startDate+'</p><p>'+deadline+'</p></div>\
+		</div></div></div>');
+
+		var intervalFunc;
+		var containerWidth;
+
+		var startDate = jData.startDate;
+		startDate = new Date(startDate);
+
+		var deadline = jData.deadline;
+		deadline = new Date(deadline);
+
+		var currentDate = new Date;
+		var now = Date.now();
+		var day = currentDate.getDate();
+		var month = currentDate.getMonth();
+		var year = currentDate.getFullYear();
+		currentDate = new Date(year, month, day);
+
+		var fullTime = deadline - startDate;
+		fullTime = fullTime / 1000 / 60 / 60 / 24;
+
+		var timePassed = currentDate - startDate;
+		timePassed = timePassed / 1000 / 60 / 60 / 24;
+
+		var difference = timePassed / fullTime * 100;
+
+		var stopAt;
+
+		containerWidth = $("#container").width();
+		stopAt = containerWidth * difference / 100;
+		$("#bar").removeClass ("animated");
+		intervalFunc = setInterval (Stop, 10);
+		setTimeout (Start, 10);
+
+		function Start() {
+			$("#bar").addClass("animated");
+			$("#bar").removeAttr("style");
+		}
+
+		function Stop() {
+			var elem = document.getElementById("bar");
+			var style = window.getComputedStyle (elem, null);
+			var frame = style.getPropertyValue("width");
+			var width = parseInt(frame,10);
+			if (width > stopAt) {
+				elem.style.webkitAnimationPlayState = "paused";
+				clearInterval (intervalFunc);
+			}
+		}
+
+		$("#existingAssignmentsContainer").animate({ scrollTop: $('#assignmentContainer').prop("scrollHeight")}, 200);
+		notificationAlert(sTitle, sDescription);
+	});
+
+
+	// *****************************************************************************
+			// CREATING CLASSES
+	// *****************************************************************************
+
+	var createClassBackgroundVisible = false;
+
+	$("html, #btnCreateClassIcon").click(function(){
+		var eventId = this.id;
+		if (createClassBackgroundVisible == false && eventId == "btnCreateClassIcon"){
+			$("#createClassBackground").show().css({"display":"flex"});
+			$("#txtCreateClassName").focus();
+			socket.emit("Client requesting all users for class creation");
+			setTimeout(function(){
+				createClassBackgroundVisible = true;
+			}, 100)
+		} else if (createClassBackgroundVisible == true) {
+			$("#createClassBackground").hide();
+			setTimeout(function(){
+				createClassBackgroundVisible = false;
+			}, 100)
+		}
+	});
+
+	socket.on("Server sending list of users for class creation", function(jData){
+		$("#classMembersContainer").empty();
+		for (var i = 0; i < jData.length; i++) {
+			var firstname = jData[i].firstname;
+			var lastname = jData[i].lastname;
+			var email = jData[i].email;
+			var userId = jData[i].id;
+			var userLoggedIn = localStorage.getItem("userId");
+
+			$('#classMembersContainer').find('input[type=checkbox]:checked').removeAttr('checked');
+			$("#classMembersContainer").append("<input type='checkbox' value="+userId+">"+firstname+" "+lastname+"<br>");
+			$('input:checkbox[value="' + userLoggedIn + '"]').attr('checked', true);
+		}
+	});
+
+	$("#createClassContainer").click(function(event){
+		event.stopPropagation();
+	});
+
+	var txtClassName;
+
+	function createClass(){
+		txtClassName = $("#txtCreateClassName").val();
+		socket.emit("Client checking if classname exists", {"className":txtClassName});
+	}
+
+	$("#txtCreateClassName").focus(function(){
+		$("#txtCreateClassName").css({"border":"1px solid #E7E8EA"});
+		$(".classNameTaken").remove();
+	});
+
+	socket.on("Server responding if classname is taken", function(jData){
+		if (jData == true){
+			$("#txtCreateClassName").css({"border":"1px solid #E95A5A"});
+			$("<p class='classNameTaken'>Class name is taken, please select another one</p>").insertAfter("#txtCreateClassName");
+		} else if (jData == false) {
+			var usersCheckedOff = [];
+			var asClass = [];
+			var userId = localStorage.getItem("userId");
+			asClass.push(txtClassName);
+			$("#txtCreateClassName").val("");
+			$("#createClassBackground").hide();
+			$('#createClassBackground input:checked').each(function() {
+				usersCheckedOff.push($(this).val());
+			});
+			socket.emit("Client sending new class name and class members", {"asClass":asClass, "usersCheckedOff":usersCheckedOff, "userId":userId});
+		}
+	});
+
+	$('body').on('keypress','#txtCreateClassName', function (e) {
+		var key = e.which;
+		if(key == 13) {
+			createClass();
+		}
+	});
+
+	$("#btnCreateClass").click(function(){
+		createClass();
+	});
+
+	socket.on("Server sending new class back", function(jData){
+		var className = jData;
+		if (jData.length > 15){
+			className = className.substr(0, 15)+"...";
+		} else {
+			className = jData;
+		}
+		$("#txtClassNames").append("<p id='"+jData+"' class='classes'>"+className+"</p>");
+	});
+
+
+	// *****************************************************************************
+			// CREATING GROUPS
+	// *****************************************************************************
+
+	var createGroupBackgroundVisible = false;
+
+	$("html, #btnCreateGroupIcon").click(function(){
+		var eventId = this.id;
+		if (createGroupBackgroundVisible == false && eventId == "btnCreateGroupIcon"){
+			$("#createGroupBackground").show().css({"display":"flex"});
+			$("#txtCreateGroupName").focus();
+			socket.emit("Client requesting all users for group creation");
+			setTimeout(function(){
+				createGroupBackgroundVisible = true;
+			}, 100)
+		} else if (createGroupBackgroundVisible == true) {
+			$("#createGroupBackground").hide();
+			setTimeout(function(){
+				createGroupBackgroundVisible = false;
+			}, 100)
+		}
+	});
+
+	socket.on("Server sending list of users for group creation", function(jData){
+		$("#groupMembersContainer").empty();
+		for (var i = 0; i < jData.length; i++) {
+			var firstname = jData[i].firstname;
+			var lastname = jData[i].lastname;
+			var email = jData[i].email;
+			var userId = jData[i].id;
+			var userLoggedIn = localStorage.getItem("userId");
+
+			$('#groupMembersContainer').find('input[type=checkbox]:checked').removeAttr('checked');
+			$("#groupMembersContainer").append("<input type='checkbox' value="+userId+">"+firstname+" "+lastname+"<br>");
+			$('input:checkbox[value="' + userLoggedIn + '"]').attr('checked', true);
+		}
+	});
+
+	$("#createGroupContainer").click(function(event){
+		event.stopPropagation();
+	});
+
+	var txtGroupName;
+
+	function createGroup(){
+		txtGroupName = $("#txtCreateGroupName").val();
+		socket.emit("Client checking if groupname exists", {"groupName":txtGroupName});
+	}
+
+	$("#txtCreateGroupName").focus(function(){
+		$("#txtCreateGroupName").css({"border":"1px solid #E7E8EA"});
+		$(".groupNameTaken").remove();
+	});
+
+	socket.on("Server responding if groupname is taken", function(jData){
+		if (jData == true){
+			$("#txtCreateGroupName").css({"border":"1px solid #E95A5A"});
+			$("<p class='groupNameTaken'>Group name is taken, please select another one</p>").insertAfter("#txtCreateGroupName");
+		} else if (jData == false) {
+			var usersCheckedOff = [];
+			var asGroup = [];
+			var userId = localStorage.getItem("userId");
+			asGroup.push(txtGroupName);
+			$("#txtCreateGroupName").val("");
+			$("#createGroupBackground").hide();
+			$('#createGroupBackground input:checked').each(function() {
+				usersCheckedOff.push($(this).val());
+			});
+			socket.emit("Client sending new group name and group members", {"asGroup":asGroup, "usersCheckedOff":usersCheckedOff, "userId":userId});
+		}
+	});
+
+	$('body').on('keypress','#txtCreateGroupName', function (e) {
+		var key = e.which;
+		if(key == 13) {
+			createGroup();
+		}
+	});
+
+	$("#btnCreateGroup").click(function(){
+		createGroup();
+	});
+
+	socket.on("Server sending new group back", function(jData){
+		var groupName = jData;
+		if (jData.length > 15){
+			groupName = groupName.substr(0, 15)+"...";
+		} else {
+			groupName = jData;
+		}
+		$("#txtGroupNames").append("<p id='"+jData+"' class='groups'>"+groupName+"</p>");
+	});
+
+
+	// *****************************************************************************
+			// EDITING CHAT MESSAGES
+	// *****************************************************************************
+
+	var deleteChatMenuVisible = false;
+	var oldChatMessage;
+	var chatDotsOrRightClick;
+
+	$(document).on('contextmenu', '.singleMessageContainerOwn', function(event) {
+		chatDotsOrRightClick = "rightClick";
+		// get position of mouse
+		var parentOffset = $(this).offset(); 
+		var relX = event.pageX - parentOffset.left;
+		var relY = event.pageY - parentOffset.top;
+		var x = Math.round(relX);
+		var y = Math.round(relY);
+		console.log("X coords: " + x + ", Y coords: " + y)
+		// get element on which menu is going to be appended
+		var currentId = $(this).find('.sChatMessageOwn').attr('id');
+
+		if (deleteChatMenuVisible == false) {
+			console.log("the id is: "+currentId);
+			$("#"+currentId).parent().css({"position":"relative"});
+			$("#"+currentId).parent().append("<div class='chatMessageMenu menu' style='z-index:100; position:absolute; top:"+y+"px; left:"+x+"px'><p class='editChatMessage'>Edit</p><p class='deleteChatMessage'>Delete</p></div>");
+
+			setTimeout(function(){
+				deleteChatMenuVisible = true;
+			}, 100)
+		} else if (deleteChatMenuVisible == true) {
+			setTimeout(function(){
+				deleteChatMenuVisible = false;
+				$(".chatMessageMenu").hide();
+			}, 100)
+		}
+	});
+	$(document).on('click', 'html, #btnChatSettings', function(event) {
+		chatDotsOrRightClick = "dots";
+		var eventId = this.id;
+		if (deleteChatMenuVisible == false && eventId == "btnChatSettings") {
+			$(this).append("<div class='chatMessageMenu menu'><p class='editChatMessage'>Edit</p><p class='deleteChatMessage'>Delete</p></div>");
+			setTimeout(function(){
+				deleteChatMenuVisible = true;
+			}, 100)
+		} else if (deleteChatMenuVisible == true) {
+			setTimeout(function(){
+				deleteChatMenuVisible = false;
+				$(".chatMessageMenu").hide();
+			}, 100)
+		}
+	});
+
+	$(".singleMessageContainerOwn").click(function(event){
+		event.stopPropagation();
+	});
+
+	var chatId;
+
+	$('body').on('click', '.editChatMessage', function(event) {
+		if (chatDotsOrRightClick == "dots") {
+			var chatInput = $(this).parent().parent().parent().parent().find(".sChatMessageOwn");
+			chatId = $(".sChatMessageOwn").attr("id");		
+		} else if (chatDotsOrRightClick == "rightClick") {
+			var chatInput = $(this).parent().parent().find(".sChatMessageOwn");
+			chatId = $(".sChatMessageOwn").attr("id");	
+		}
+		oldChatMessage = chatInput.html();
+		chatInput.replaceWith("<input class='inputEditMessage' value='" + oldChatMessage + "' />");
+		$(".chatMessageMenu menu").hide();
+	});
+
+	$('body').on('keypress','.inputEditMessage', function (e) {
+		var key = e.which;
+		if(key == 13) {
+			var newChatMessage = $(".inputEditMessage").val();
+			socket.emit("Client sending edited chat data", {"oldChatMessage":oldChatMessage, "newChatMessage":newChatMessage, "chatId":chatId});
+			return false;
+		}
+	});
+
+	socket.on("Server sending new chat message", function(jData){
+		var oldChatMessage = jData.oldChatMessage;
+		var newChatMessage = jData.newChatMessage;
+		var chatMessageId = jData.messageId;
+
+		$("#"+oldChatMessage).text(newChatMessage);
+		$(".inputEditMessage").replaceWith("<p id='"+chatMessageId+"'>"+newChatMessage+"</p>");
+		$("#"+chatMessageId).addClass("sMessageOwn");
+	});
+
+
+		// *****************************************************************************
+				// DELETING CHAT MESSAGES
+		// *****************************************************************************
+
+		$('body').on('click', '.deleteChatMessage', function(event) {
+			$(".chatMessageMenu menu").hide();
+			if (chatDotsOrRightClick == "dots") {
+
+				var chatToDelete = $(this).parent().parent().parent().parent().find(".sChatMessageOwn");
+				var txtChatToDelete = chatToDelete.html();
+
+				var chatId = $(this).parent().parent().parent().parent().find(".sChatMessageOwn").attr('id');
+			}else if(chatDotsOrRightClick = "rightClick"){
+				var chatToDelete = $(this).parent().parent().find(".sChatMessageOwn");
+				var txtChatToDelete = chatToDelete.html();
+
+				var chatId = $(this).parent().parent().find(".sChatMessageOwn").attr('id');
+			}
+			socket.emit("Client sending chat message to delete", {"txtChatToDelete":txtChatToDelete, "chatId":chatId});
+		});
+
+		socket.on("Server sending chat to delete", function(jData){
+			$(".postSettings").hide();
+			var chatToDelete = jData.chatId;
+
+			var chatToDeleteContainer = $("#"+chatToDelete).parent().parent().attr('id', 'deleteChat');
+			$("#deleteChat").fadeOut("slow");
+		});
+
+
+		var deletePostMenuVisible = false;
+		var oldPostTitle;
+		var oldPostDescription;
+		var postDotsOrRightClick;
+		$(document).on('contextmenu', '.singlePostContainer', function(event) {
+			postDotsOrRightClick = "rightClick";
+		// get position of mouse
+		var parentOffset = $(this).offset(); 
+		var relX = event.pageX - parentOffset.left;
+		var relY = event.pageY - parentOffset.top;
+		var x = Math.round(relX);
+		var y = Math.round(relY);
+		console.log("X coords: " + x + ", Y coords: " + y)
+		// get element on which menu is going to be appended
+		var currentId = $(this).find('.sPostDescription').attr('id');
+
+		if (deletePostMenuVisible == false) {
+			console.log("the id is: "+currentId);
+			$("#"+currentId).parent().css({"position":"relative"});
+			$("#"+currentId).parent().append("<div class='postMenu menu' style='z-index:100; position:absolute; top:"+y+"px; left:"+x+"px'><p class='editPost'>Edit</p><p class='deletePost'>Delete</p></div>");
+
+			setTimeout(function(){
+				deletePostMenuVisible = true;
+			}, 100)
+		} else if (deletePostMenuVisible == true) {
+			setTimeout(function(){
+				deletePostMenuVisible = false;
+				$(".postMenu").hide();
+			}, 100)
+		}
+	});
+
+		$(document).on('click', 'html, #btnPostSettings', function(event) {
+			postDotsOrRightClick = "dots";
+			var eventId = this.id;
+			if (deletePostMenuVisible == false && eventId == "btnPostSettings") {
+				$(this).append("<div class='postMenu menu'><p class='editPost'>Edit</p><p class='deletePost'>Delete</p></div>");
+				setTimeout(function(){
+					deletePostMenuVisible = true;
+				}, 100)
+			} else if (deletePostMenuVisible == true) {
+				$(".postMenu").hide();
+				deletePostMenuVisible = false;
+			}
+		});
+
+		$(".singlePostContainerOwn").click(function(event){
+			event.stopPropagation();
+		});
+
+		var postId;
+
+		$('body').on('click', '.editPost', function() {
+			if (postDotsOrRightClick == "dots") {
+				var clickedPostTitle = $(this).parent().parent().parent().parent().parent().find(".sPostTitle");
+				var clickedPostDescription = $(this).parent().parent().find(".sPostDescription");			
+			} else if(postDotsOrRightClick == "rightClick"){
+				var clickedPostTitle = $(this).parent().parent().find(".sPostTitle");
+				var clickedPostDescription = $(this).parent().parent().find(".sPostDescription");
+
+			}
+
+			oldPostTitle = clickedPostTitle.text();
+			oldPostDescription = clickedPostDescription.text();
+
+			postId = $(clickedPostTitle).attr("id");
+
+			clickedPostTitle.replaceWith("<input class='inputEditPostTitle' value='" + oldPostTitle + "'/>");
+			clickedPostDescription.replaceWith("<textarea class='inputEditPostDescription'>" + oldPostDescription + "</textarea>");
+
+			$(".postSettings").hide();
+		});
+
+		$('body').on('keypress','.inputEditPostTitle, .inputEditPostDescription', function (e) {
+			if ($(".inputEditPostTitle") != "" && $(".inputEditPostDescription") != ""){
+				var key = e.which;
+				if(key == 13) {
+					var newPostTitle = $(".inputEditPostTitle").val();
+					var newPostDescription = $(".inputEditPostDescription").val();
+
+					socket.emit("Client sending edited post data", {"newPostTitle":newPostTitle, "newPostDescription":newPostDescription, "postId":postId});
+					return false;
+				}
+			}
+		});
+
+		socket.on("Server sending new post", function(jData){
+			var newPostTitle = jData.newPostTitle;
+			var newPostDescription = jData.newPostDescription;
+			var postId = jData.postId;
+
+			$(".inputEditPostTitle").replaceWith("<p id='"+postId+"'>"+newPostTitle+"</p>");
+			$(".inputEditPostDescription").replaceWith("<div id='"+postId+"'><p>"+newPostDescription+"</p></div>");
+
+			$("#"+postId).addClass("sPostTitle");
+			$("#"+postId).addClass("sPostDescription");
+		});
+
+
+	// *****************************************************************************
+			// DELETING POSTS
+	// *****************************************************************************
+
+	$('body').on('click', '.deletePost', function(event) {
+		if (postDotsOrRightClick == "dots") {
+
+			var postTitleToDelete = $(this).parent().parent().parent().parent().parent().find(".sPostTitle");
+			var txtPostTitleToDelete = postTitleToDelete.html();
+
+			var postDescriptionToDelete = $(this).parent().parent().parent().parent().parent().find(".sPostDescription");
+			var txtPostDescriptionToDelete = postDescriptionToDelete.html();
+
+			var postTitleId = $(this).parent().parent().parent().parent().parent().find(".sPostTitle").attr('id');
+		}else if(postDotsOrRightClick == "rightClick"){
+			var postTitleToDelete = $(this).parent().parent().find(".sPostTitle");
+			var txtPostTitleToDelete = postTitleToDelete.html();
+
+			var postDescriptionToDelete = $(this).parent().parent().find(".sPostDescription");
+			var txtPostDescriptionToDelete = postDescriptionToDelete.html();
+
+			var postTitleId = $(this).parent().parent().find(".sPostTitle").attr('id');
+		}
+		socket.emit("Client sending post to delete", {"txtPostTitleToDelete":txtPostTitleToDelete, "txtPostDescriptionToDelete":txtPostDescriptionToDelete, "postTitleId":postTitleId});
+	});
+
+	socket.on("Server sending post to delete", function(jData){
+		$(".postSettings").hide();
+		var postToDelete = jData.postTitleId;
+
+		var postToDeleteContainer = $("#"+postToDelete).parent().parent().attr('id', 'deletePost');
+		$("#deletePost").fadeOut("slow");
+	});
+
+
+		// *****************************************************************************
+			// EDITING ASSIGNMENTS
+	// *****************************************************************************
+
+	var deleteAssignmentMenuVisible = false;
+	var oldAssignmentTitle;
+	var oldAssignmentDescription;
+	var assignmentsDotsOrRightClick;
+	$(document).on('contextmenu', '.singleAssignmentContainer', function(event) {
+		assignmentsDotsOrRightClick = "rightClick";
+		// get position of mouse
+		var parentOffset = $(this).offset(); 
+		var relX = event.pageX - parentOffset.left;
+		var relY = event.pageY - parentOffset.top;
+		var x = Math.round(relX);
+		var y = Math.round(relY);
+		console.log("X coords: " + x + ", Y coords: " + y);
+		// get element on which menu is going to be appended
+		var currentId = $(this).find('.sAssignmentDescription').attr('id');
+
+		if (deleteAssignmentMenuVisible == false) {
+			console.log("the id is: "+currentId);
+			$("#"+currentId).parent().css({"position":"relative"});
+			$("#"+currentId).parent().append("<div class='assignmentMenu menu' style='z-index:100; position:absolute; top:"+y+"px; left:"+x+"px'><p class='editAssignment'>Edit</p><p class='deleteAssignment'>Delete</p></div>");
+
+			setTimeout(function(){
+				deleteAssignmentMenuVisible = true;
+			}, 100)
+		} else if (deleteAssignmentMenuVisible == true) {
+			setTimeout(function(){
+				deleteAssignmentMenuVisible = false;
+				$(".assignmentMenu").hide();
+			}, 100)
+		}
+	});
+
+	$(document).on('click', 'html, #btnAssignmentSettings', function(event) {
+		assignmentsDotsOrRightClick = "dots";
+		var eventId = this.id;
+		if (deleteAssignmentMenuVisible == false && eventId == "btnAssignmentSettings") {
+			$(this).append("<div class='assignmentMenu menu'><p class='editAssignment'>Edit</p><p class='deleteAssignment'>Delete</p></div>");
+			setTimeout(function(){
+				deleteAssignmentMenuVisible = true;
+			}, 100)
+		} else if (deleteAssignmentMenuVisible == true) {
+			$(".assignmentMenu").hide();
+			deleteAssignmentMenuVisible = false;
+		}
+	});
+
+	$(".singleAssignmentContainerOwn").click(function(event){
+		event.stopPropagation();
+	});
+
+	var assignmentId;
+
+	$('body').on('click', '.editAssignment', function() {
+		if (assignmentsDotsOrRightClick == "dots") {
+			var clickedAssignmentTitle = $(this).parent().parent().parent().parent().parent().find(".sAssignmentTitle");
+			var clickedAssignmentDescription = $(this).parent().parent().parent().parent().parent().find(".sAssignmentDescription");			
+		}else if (assignmentsDotsOrRightClick == "rightClick") {
+			var clickedAssignmentTitle = $(this).parent().parent().find(".sAssignmentTitle");
+			var clickedAssignmentDescription = $(this).parent().parent().find(".sAssignmentDescription");
+
+		}
+
+		oldAssignmentTitle = clickedAssignmentTitle.text();
+		oldAssignmentDescription = clickedAssignmentDescription.text();
+
+		assignmentId = $(clickedAssignmentTitle).attr("id");
+
+		clickedAssignmentTitle.replaceWith("<input class='inputEditAssignmentTitle' value='" + oldAssignmentTitle + "'/>");
+		clickedAssignmentDescription.replaceWith("<textarea class='inputEditAssignmentDescription'>" + oldAssignmentDescription + "</textarea>");
+		$("#datepicker").insertAfter(".inputEditAssignmentDescription");
+
+		$(".assignmentSettings").hide();
+	});
+
+	$('body').on('keypress','.inputEditAssignmentTitle, .inputEditAssignmentDescription', function (e) {
+		if ($(".inputEditAssignmentTitle") != "" && $(".inputEditAssignmentDescription") != ""){
+			var key = e.which;
+			if(key == 13) {
+				var newAssignmentTitle = $(".inputEditAssignmentTitle").val();
+				var newAssignmentDescription = $(".inputEditAssignmentDescription").val();
+				var newAssignmentDeadline = $("#datepicker").val();
+
+				socket.emit("Client sending edited assignment data", {"newAssignmentTitle":newAssignmentTitle, "newAssignmentDescription":newAssignmentDescription, "newAssignmentDeadline":newAssignmentDeadline, "assignmentId":assignmentId});
+
+				$(".hasDatepicker").remove();
+				return false;
+			}
+		}
+	});
+
+	socket.on("Server sending new assignment", function(jData){
+		var newAssignmentTitle = jData.newAssignmentTitle;
+		var newAssignmentDescription = jData.newAssignmentDescription;
+		var newAssignmentDeadline = jData.deadline;
+
+		var assignmentId = jData.assignmentId;
+
+		$(".inputEditAssignmentTitle").replaceWith("<p id='title"+assignmentId+"'>"+newAssignmentTitle+"</p>");
+		$(".inputEditAssignmentDescription").replaceWith("<div id='desc"+assignmentId+"'><p>"+newAssignmentDescription+"</p></div>");
+		$("#dates"+assignmentId).find('p:last-child').html("<p>"+newAssignmentDeadline+"</p>");
+
+		$("#title"+assignmentId).addClass("sAssignmentTitle");
+		$("#desc"+assignmentId).addClass("sAssignmentDescription");
+	});
+
+
+	// *****************************************************************************
+		// DELETING ASSIGNMENTS
+	// *****************************************************************************
+
+	$('body').on('click', '.deleteAssignment', function(event) {
+		if (assignmentsDotsOrRightClick == "dots") {
+			var assignmentTitleToDelete = $(this).parent().parent().parent().parent().parent().find(".sAssignmentTitle");
+			var txtAssignmentTitleToDelete = assignmentTitleToDelete.html();
+
+			var assignmentDescriptionToDelete = $(this).parent().parent().parent().parent().parent().find(".sAssignmentDescription");
+			var txtAssignmentDescriptionToDelete = assignmentDescriptionToDelete.html();
+
+			var assignmentTitleId = $(this).parent().parent().parent().parent().parent().find(".sAssignmentTitle").attr('id');
+		}else if (assignmentsDotsOrRightClick == "rightClick") {
+			var assignmentTitleToDelete = $(this).parent().parent().find(".sAssignmentTitle");
+			var txtAssignmentTitleToDelete = assignmentTitleToDelete.html();
+
+			var assignmentDescriptionToDelete = $(this).parent().parent().find(".sAssignmentDescription");
+			var txtAssignmentDescriptionToDelete = assignmentDescriptionToDelete.html();
+
+			var assignmentTitleId = $(this).parent().parent().find(".sAssignmentTitle").attr('id');
+		}
+
+		socket.emit("Client sending assignment to delete", {"txtAssignmentTitleToDelete":txtAssignmentTitleToDelete, "txtAssignmentDescriptionToDelete":txtAssignmentDescriptionToDelete, "assignmentTitleId":assignmentTitleId});
+	});
+
+	socket.on("Server sending assignment to delete", function(jData){
+		$(".assignmentSettings").hide();
+		var assignmentToDelete = jData.assignmentTitleId;
+
+		var assignmentToDeleteContainer = $("#"+assignmentToDelete).parent().parent().attr('id', 'deleteAssignment');
+		$("#deleteAssignment").fadeOut("slow");
+	});
+
+
+		// *****************************************************************************
+			// SVG
+		// *****************************************************************************
+
+		var svg = '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"width="1656.321px" height="50.26px" viewBox="0 0 1656.321 50.26" enable-background="new 0 0 1656.321 50.26"xml:space="preserve"><path fill="#565656" d="M1631.154,0.073c-12.095,0-22.183,8.589-24.499,20H49.682c-2.317-11.411-12.404-20-24.499-20c-13.807,0-25,11.193-25,25s11.193,25,25,25c12.095,0,22.183-8.589,24.499-20h1556.973c2.316,11.411,12.404,20,24.499,20c13.807,0,25-11.193,25-25C1656.154,11.266,1644.96,0.073,1631.154,0.073z"/></svg>';
+
+
+	// *****************************************************************************
+		// Search
+	// *****************************************************************************
+
+	var searchRequest;
+	var localSearch;
+	var localOrGlobal = "global";
+	var membersOrFiles = "";
+	var userId = localStorage.getItem("userId");
+	$("#txtSearch").keyup(function(event){
+		if (event.keyCode == 13){
+			membersOrFiles = "";
+			localSearch = localStorage.getItem("lastRoom");
+			if (localOrGlobal == "global") {
+				searchGlobal();
+			} else {
+				searchLocal();
+			}
+		}
+	});
+
+	$("#btnSearch").click(function(){
+		membersOrFiles = "";
+		localSearch = localStorage.getItem("lastRoom");
+		if (localOrGlobal == "global") {
+			searchGlobal();
+		} else {
+			searchLocal();
+		}
+	});
+
+	$("#btnSearchLocal").click(function(){
+		localOrGlobal = "local";
+		localSearch = localStorage.getItem("lastRoom");
+		var colorTheme = localStorage.getItem("colorTheme");
+
+		if (colorTheme == "darkTheme") {
+			$("#btnSearchLocal").css({"color":"#2a2a2a"});
+			$("#btnSearchGlobal").css({"background":"#2a2a2a"});
+		} else {
+			$("#btnSearchLocal").css({"color":"white"});
+			$("#btnSearchGlobal").css({"background":"white"});
+		}
+
+		$("#btnSearchLocal").css({"background":"#E95A5A"});
+		$("#btnSearchLocal").css({"box-shadow":"none"});
+		$("#btnSearchGlobal").css({"color":"#E95A5A"});
+		$("#btnSearchGlobal").css({"-webkit-box-shadow":"0px 2px 5px 1px rgba(105,105,105,0.2)"});
+		$("#btnSearchGlobal").css({"-moz-box-shadow":"0px 2px 5px 1px rgba(105,105,105,0.2)"});
+		$("#btnSearchGlobal").css({"box-shadow":"0px 2px 5px 1px rgba(105,105,105,0.2)"});
+
+		if (membersOrFiles == "members") {
+			searchMembersLocal();
+		} else if(membersOrFiles == "files") {
+			searchFilesLocal()
+		} else {
+			searchLocal();
+		}
+	});
+
+	$("#btnSearchGlobal").click(function(){
+		localOrGlobal = "global";
+		localSearch = "";
+		var colorTheme = localStorage.getItem("colorTheme");
+
+		if (colorTheme == "darkTheme") {
+				$("#btnSearchGlobal").css({"color":"#2a2a2a"});
+				$("#btnSearchLocal").css({"background":"#2a2a2a"});
+			}else {
+				$("#btnSearchGlobal").css({"color":"white"});
+				$("#btnSearchLocal").css({"background":"white"});
+			}
+
+		$("#btnSearchGlobal").css({"background":"#E95A5A"});
+		// $("#btnSearchGlobal").css({"color":"white"});
+		$("#btnSearchLocal").css({"-webkit-box-shadow":"0px 2px 5px 1px rgba(105,105,105,0.2)"});
+		$("#btnSearchLocal").css({"-moz-box-shadow":"0px 2px 5px 1px rgba(105,105,105,0.2)"});
+		$("#btnSearchLocal").css({"box-shadow":"0px 2px 5px 1px rgba(105,105,105,0.2)"});
+		// $("#btnSearchLocal").css({"background":"white"});
+		$("#btnSearchLocal").css({"color":"#E95A5A"});
+		// $("#btnSearchLocal").css({"color":"#E95A5A"});
+		$("#btnSearchGlobal").css({"box-shadow":"none"});
+
+		if (membersOrFiles == "members") {
+			searchMembersGlobal();
+		} else if(membersOrFiles == "files") {
+			searchFilesGlobal()
+		} else{
+			searchGlobal();
+		}
+	});
+
+	function searchGlobal(){
+		$("#memberAndFileResults").hide("fast");
+		$("#chatResults").text("");
+		$("#postResults").text("");
+		$("#assignmentResults").text("");
+		$("#userResults").text("");
+		searchRequest = $("#txtSearch").val();
+
+		if (searchRequest.length > 2) {
+			socket.emit("Client searching for global results", {"request":searchRequest, "userId":userId});
+		} else {
+			$("#searchResults").show();
+			$("#feedbackResults").text("Please input at least 3 characters");
+		}
+	}
+
+	function searchLocal(){
+		$("#memberAndFileResults").hide("fast");
+		$("#chatResults").text("");
+		$("#postResults").text("");
+		$("#assignmentResults").text("");
+		$("#userResults").text("");
+		searchRequest = $("#txtSearch").val();
+
+		if (searchRequest.length > 2) {
+			if (groupsOrClasses == "groups") {
+				socket.emit("Client searching for local results", {"request":searchRequest, "location":localSearch, "groupsOrClasses":"groups"});
+			} else if(groupsOrClasses == "classes"){
+				socket.emit("Client searching for local results", {"request":searchRequest, "location":localSearch, "groupsOrClasses":"classes"});
+			}
+		} else {
+			$("#searchResults").show();
+			$("#feedbackResults").text("Please input at least 3 characters");
+		}
+	}
+
+
+	// *****************************************************************************
+				// SEARCH RESULTS (global)
+	// *****************************************************************************
+
+	socket.on("Server sending global search results", function(jData){
+		var chatResults = jData.chatResults;
+		var postResults = jData.postResults;
+		var userResults = jData.userResults;
+		var assignmentResults = jData.assignmentResults;
+
+		$("#feedbackResults").text("");
+		$("#chatResults").html("<ul></ul>");
+
+		if (jData.chatResults != "") {
+			var isBtnChatShowMore = false;
+
+			for (var i = 0; i < chatResults.length; i++) {
+				var uploads = "";
+				if (chatResults[i].chatUpload) {
+					uploads = "<p>Uploaded file: <a href='/uploads/"+chatResults[i].chatUpload+"' target='_blank'>"+chatResults[i].chatUpload+"</a></p>";
+				}
+				if (i == 0) {
+					$("#chatResults ul").append("<li><p class='resultsHeader'>Chat messages: </p><b>"+chatResults[i].poster+"</b> wrote in: <ins>"+chatResults[i].location+"</ins>: <i>"+chatResults[i].chatMessage+"</i> "+uploads+"</il>");
+				} else if (i >= 2){
+					if (isBtnChatShowMore == false) {
+						$("#chatResults").append("<div id='chatShowMore'><ul></ul></div><button id='btnChatShowMore'>Show more</button>");
+						isBtnChatShowMore = true;
+					}
+					$("#chatShowMore ul").append("<li><b>"+chatResults[i].poster+"</b> wrote in: <ins>"+chatResults[i].location+"</ins>: <i>"+chatResults[i].chatMessage+"</i> "+uploads+"</li>");
+				} else {
+					$("#chatResults ul").append("<li><b>"+chatResults[i].poster+"</b> wrote in: <ins>"+chatResults[i].location+"</ins>: <i>"+chatResults[i].chatMessage+"</i> "+uploads+"</li>");
+				}
+			}
+		}
+
+		$("#postResults").html("<ul></ul>");
+
+		if (jData.postResults != "") {
+			var isBtnPostShowMore = false;
+
+			for (var i = 0; i < postResults.length; i++) {
+				if (postResults[i].postUpload) {
+					uploads = "<p>Uploaded file: <a href='/uploads/"+postResults[i].postUpload+"' target='_blank'>"+postResults[i].postUpload+"</a></p>";
+				}
+				if (i == 0) {
+					$("#postResults ul").append("<li><p class='resultsHeader'>Posts: </p><p><b>"+postResults[i].poster+"</b> posted in: <ins>"+postResults[i].location+"</ins> Title: "+postResults[i].postTitle+" Description: <i>"+postResults[i].postDescription+"</i></p>"+uploads+"</li>");
+				} else if (i >= 2){
+					if (isBtnPostShowMore == false) {
+						$("#postResults").append("<div id='postShowMore'><ul></ul></div><button id='btnPostShowMore'>Show more</button>");
+						isBtnPostShowMore = true;
+					}
+					$("#postShowMore ul").append("<li><b>"+postResults[i].poster+"</b> posted in: <ins>"+postResults[i].location+"</ins> Title: "+postResults[i].postTitle+" Description: <i>"+postResults[i].postDescription+"</i>"+uploads+"</li>");
+				} else {
+					$("#postResults ul").append("<li><b>"+postResults[i].poster+"</b> posted in: <ins>"+postResults[i].location+"</ins> Title: "+postResults[i].postTitle+" Description: <i>"+postResults[i].postDescription+"</i>"+uploads+"</li>");
+				}
+			}
+		}
+
+		$("#assignmentResults").html("<ul></ul>");
+
+		if (jData.assignmentResults != "") {
+			var isBtnAssignmentShowMore = false;
+
+			for (var i = 0; i < assignmentResults.length; i++) {
+				if (assignmentResults[i].assignmentUpload) {
+					uploads = "<p>Uploaded file: <a href='/uploads/"+assignmentResults[i].assignmentUpload+"' target='_blank'>"+assignmentResults[i].assignmentUpload+"</a></p>";
+				}
+				if (i == 0) {
+					$("#assignmentResults ul").append("<li><p class='resultsHeader'>Assignments: </p><p><b>"+assignmentResults[i].poster+"</b> posted in: <ins>"+assignmentResults[i].location+"</ins> Title: "+assignmentResults[i].assignmentTitle+" Description: <i>"+assignmentResults[i].assignmentDescription+"</i></p>"+uploads+"</li>");
+				} else if (i >= 2){
+					if (isBtnAssignmentShowMore == false) {
+						$("#assignmentResults").append("<div id='assignmentShowMore'><ul></ul></div><button id='btnAssignmentShowMore'>Show more</button>");
+						isBtnAssignmentShowMore = true;
+					}
+					$("#assignmentShowMore ul").append("<li><b>"+assignmentResults[i].poster+"</b> posted in: <ins>"+assignmentResults[i].location+"</ins> Title: "+assignmentResults[i].assignmentTitle+" Description: <i>"+assignmentResults[i].assignmentDescription+"</i>"+uploads+"</li>");
+				} else {
+					$("#assignmentResults ul").append("<li><b>"+assignmentResults[i].poster+"</b> posted in: <ins>"+assignmentResults[i].location+"</ins> Title: "+assignmentResults[i].assignmentTitle+" Description: <i>"+assignmentResults[i].assignmentDescription+"</i>"+uploads+"</li>");
+				}
+			}
+		}
+
+		$("#userResults").html("<ul></ul>");
+
+		if (jData.userResults != "") {
+			var isBtnUserShowMore = false;
+
+			for (var i = 0; i < userResults.length; i++) {
+				if (i == 0) {
+					$("#userResults ul").append("<li><p class='resultsHeader'>Users: </p><p>"+userResults[i].firstname+" "+userResults[i].lastname+"</p></li>");
+				} else if (i >= 2){
+					if (isBtnUserShowMore == false) {
+						$("#userResults").append("<div id='userShowMore'><ul></ul></div><button id='btnUserShowMore'>Show more</button>");
+						isBtnUserShowMore = true;
+					}
+					$("#userShowMore ul").append("<li>"+userResults[i].firstname+" "+userResults[i].lastname+"</li>");
+				} else {
+					$("#userResults ul").append("<li>"+userResults[i].firstname+" "+userResults[i].lastname+"</li>");
+				}
+			}
+		}
+
+		$("#searchResults").show();
+		$("#chatResults").show();
+		$("#postResults").show();
+		$("#userResults").show();
+		$("#assignmentResults").show();
+
+		if (postResults.length == 0 && chatResults.length == 0 && userResults.length == 0 && assignmentResults.length == 0) {
+			$("#feedbackResults").text("No results found");
+		}
+	});
+
+
+	// *****************************************************************************
+				// SEARCH RESULTS (local)
+	// *****************************************************************************
+
+	socket.on("Server sending local search results", function(jData){
+		var chatResults = jData.chatResults;
+		var postResults = jData.postResults;
+		var userResults = jData.userResults;
+		var assignmentResults = jData.assignmentResults;
+
+		$("#feedbackResults").text("");
+		$("#chatResults").html("<ul></ul>");
+		if (jData.chatResults != "") {
+			var isBtnChatShowMore = false;
+			for (var i = 0; i < chatResults.length; i++) {
+				var uploads = "";
+				if (chatResults[i].chatUpload) {
+					uploads = "<p>Uploaded file: <a href='/uploads/"+chatResults[i].chatUpload+"' target='_blank'>"+chatResults[i].chatUpload+"</a></p>";
+				}
+				if (i == 0) {
+					$("#chatResults ul").append("<li><p class='resultsHeader'>Chat messages: </p><b>"+chatResults[i].poster+"</b> wrote in: <ins>"+chatResults[i].location+"</ins>: <i>"+chatResults[i].chatMessage+"</i>"+uploads+"</li>");
+				} else if (i >= 2){
+					if (isBtnChatShowMore == false) {
+						$("#chatResults").append("<div id='chatShowMore'><ul></ul></div><button id='btnChatShowMore'>Show more</button>");
+						isBtnChatShowMore = true;
+					}
+					$("#chatShowMore ul").append("<li><b>"+chatResults[i].poster+"</b> wrote in: <ins>"+chatResults[i].location+"</ins>: <i>"+chatResults[i].chatMessage+"</i>"+uploads+"</li>");
+				} else {
+					$("#chatResults ul").append("<li><b>"+chatResults[i].poster+"</b> wrote in: <ins>"+chatResults[i].location+"</ins>: <i>"+chatResults[i].chatMessage+"</i>"+uploads+"</li>");
+				}
+			}
+		}
+
+		$("#postResults").html("<ul></ul>");
+		if (jData.postResults != "") {
+			var isBtnPostShowMore = false;
+			for (var i = 0; i < postResults.length; i++) {
+				var uploads = "";
+				if (postResults[i].postUpload) {
+					uploads = "<p>Uploaded file: <a href='/uploads/"+postResults[i].postUpload+"' target='_blank'>"+postResults[i].postUpload+"</a></p>";
+				}
+				if (i == 0) {
+					$("#postResults ul").append("<li><p class='resultsHeader'>Posts: </p><b>"+postResults[i].poster+"</b> posted in: <ins>"+postResults[i].location+"</ins> Title: "+postResults[i].postTitle+" Description: <i>"+postResults[i].postDescription+"</i>"+uploads+"</li>");
+				} else if (i >= 2){
+					if (isBtnPostShowMore == false) {
+						$("#postResults").append("<div id='postShowMore'><ul></ul></div><button id='btnPostShowMore'>Show more</button>");
+						isBtnPostShowMore = true;
+					}
+
+					$("#postShowMore ul").append("<li><b>"+postResults[i].poster+"</b> posted in: <ins>"+postResults[i].location+"</ins> Title: "+postResults[i].postTitle+" Description: <i>"+postResults[i].postDescription+"</i>"+uploads+"</li>");
+				} else {
+					$("#postResults ul").append("<li><b>"+postResults[i].poster+"</b> posted in: <ins>"+postResults[i].location+"</ins> Title: "+postResults[i].postTitle+" Description: <i>"+postResults[i].postDescription+"</i>"+uploads+"</li>");
+				}
+			}
+		}
+
+		$("#assignmentResults").html("<ul></ul>");
+
+		if (jData.assignmentResults != "") {
+			var isBtnAssignmentShowMore = false;
+			for (var i = 0; i < assignmentResults.length; i++) {
+				var uploads = "";
+				if (assignmentResults[i].assignmentUpload) {
+					uploads = "<p>Uploaded file: <a href='/uploads/"+assignmentResults[i].assignmentUpload+"' target='_blank'>"+assignmentResults[i].assignmentUpload+"</a></p>";
+				}
+				if (i == 0) {
+					$("#assignmentResults ul").append("<li><p class='resultsHeader'>Assignments: </p><b>"+assignmentResults[i].poster+"</b> posted in: <ins>"+assignmentResults[i].location+"</ins> Title: "+assignmentResults[i].assignmentTitle+" Description: <i>"+assignmentResults[i].assignmentDescription+"</i>"+uploads+"</li>");
+				} else if (i >= 2){
+					if (isBtnAssignmentShowMore == false) {
+						$("#assignmentResults").append("<div id='assignmentShowMore'><ul></ul></div><button id='btnAssignmentShowMore'>Show more</button>");
+						isBtnAssignmentShowMore = true;
+					}
+
+					$("#assignmentShowMore ul").append("<li><b>"+assignmentResults[i].poster+"</b> posted in: <ins>"+assignmentResults[i].location+"</ins> Title: "+assignmentResults[i].assignmentTitle+" Description: <i>"+assignmentResults[i].assignmentDescription+"</i>"+uploads+"</li>");
+				} else {
+					$("#assignmentResults ul").append("<li><b>"+assignmentResults[i].poster+"</b> posted in: <ins>"+assignmentResults[i].location+"</ins> Title: "+assignmentResults[i].assignmentTitle+" Description: <i>"+assignmentResults[i].assignmentDescription+"</i>"+uploads+"</li>");
+				}
+			}
+		}
+
+		$("#userResults").html("<ul></ul>");
+
+		if (jData.userResults != "") {
+			var isBtnUserShowMore = false;
+			for (var i = 0; i < userResults.length; i++) {
+				if (i == 0) {
+					$("#userResults ul").append("<li><p class='resultsHeader'>Users: </p>"+userResults[i].firstname+" "+userResults[i].lastname+"</li>");
+				} else if (i >= 2){
+					if (isBtnUserShowMore == false) {
+						$("#userResults").append("<div id='userShowMore'><ul></ul></div><button id='btnUserShowMore'>Show more</button>");
+						isBtnUserShowMore = true;
+					}
+
+					$("#userShowMore ul").append("<li>"+userResults[i].firstname+" "+userResults[i].lastname+"</li>");
+				} else {
+					$("#userResults ul").append("<li>"+userResults[i].firstname+" "+userResults[i].lastname+"</li>");
+				}
+			}
+		}
+
+		$("#searchResults").show();
+		$("#chatResults").show();
+		$("#postResults").show();
+		$("#userResults").show();
+		$("#assignmentResults").show();
+
+		if (postResults.length == 0 && chatResults.length == 0 && userResults.length == 0 && assignmentResults.length == 0) {
+			$("#feedbackResults").text("No results found");
+		}
+	});
+
+
+	// *****************************************************************************
+			// Member Search
+	// *****************************************************************************
+
+	$("#btnSearchMembers").click(function(){
+		membersOrFiles = "members";
+		var colorTheme = localStorage.getItem("colorTheme");
+
+		if (colorTheme == "darkTheme") {
+				$("#btnSearchMembers").css({"color":"#2a2a2a"});
+				$("#btnSearchMembers i").css({"color":"2a2a2a"});
+				$("#btnSearchFiles").css({"background":"#2a2a2a"});
+				$("#btnSearchFiles i").css({"background":"#2a2a2a"});
+			}else {
+				$("#btnSearchMembers").css({"color":"white"});
+				$("#btnSearchMembers i").css({"color":"white"});
+				$("#btnSearchFiles").css({"background":"white"});
+				$("#btnSearchFiles i").css({"background":"white"});
+			}
+
+		$("#btnSearchMembers").css({"background":"#E95A5A"});
+		// $("#btnSearchMembers").css({"color":"white"});
+		$("#btnSearchMembers i").css({"background":"#E95A5A"});
+		// $("#btnSearchMembers i").css({"color":"white"});
+		$("#btnSearchFiles").css({"-webkit-box-shadow":"0px 2px 5px 1px rgba(105,105,105,0.2)"});
+		$("#btnSearchFiles").css({"-moz-box-shadow":"0px 2px 5px 1px rgba(105,105,105,0.2)"});
+		$("#btnSearchFiles").css({"box-shadow":"0px 2px 5px 1px rgba(105,105,105,0.2)"});
+		// $("#btnSearchFiles").css({"background":"white"});
+		$("#btnSearchFiles").css({"color":"#E95A5A"});
+		// $("#btnSearchFiles i").css({"background":"white"});
+		$("#btnSearchFiles i").css({"color":"#E95A5A"});
+		$("#btnSearchMembers").css({"box-shadow":"none"});
+		if (localOrGlobal == "global") {
+			searchMembersGlobal();
+		} else {
+			searchMembersLocal();
+		}
+	});
+
+	function searchMembersGlobal(){
+		$("#searchResults").hide("fast");
+		$("#fileChatResults").hide("fast");
+		$("#filePostResults").hide("fast");
+		$("#fileAssignmentResults").hide("fast");
+		socket.emit("Client searching for global members");
+	}
+
+	function searchMembersLocal(){
+		$("#searchResults").hide("fast");
+		$("#fileChatResults").hide("fast");
+		$("#filePostResults").hide("fast");
+		$("#fileAssignmentResults").hide("fast");
+		if (lastRoom) {
+			localSearch = lastRoom;
+		}
+		else {
+			localSearch = localStorage.getItem("lastRoom");
+		}
+		if (groupsOrClasses == "groups") {
+			socket.emit("Client searching for local members", {"location":localSearch, "groupsOrClasses":"groups"});
+		} else if (groupsOrClasses == "classes"){
+			socket.emit("Client searching for local members", {"location":localSearch, "groupsOrClasses":"classes"});
+		}
+	}
+
+	socket.on("Server sending global member results", function(jData){
+		var memberResults = jData.memberResults;
+
+		$("#memberAndFileFeedback").text("");
+		$("#memberResults").html("<ul></ul>");
+		if (jData.memberResults != "") {
+			var isBtnMemberShowMore = false;
+			for (var i = 0; i < memberResults.length; i++) {
+				if (i == 0) {
+					$("#memberResults ul").append("<li><p class='resultsHeader'>Users at tinkr: </p><p class='username' id='"+memberResults[i].userId+"'>"+memberResults[i].firstname+" "+memberResults[i].lastname+"</p></li>");
+				} else if (i >= 10){
+					if (isBtnMemberShowMore == false) {
+						$("#memberResults").append("<div id='memberShowMore'><ul></ul></div><button id='btnMemberShowMore'>Show more</button>");
+						isBtnMemberShowMore = true;
+					}
+					$("#memberShowMore ul").append("<li><p class='username' id='"+memberResults[i].userId+"'>"+memberResults[i].firstname+" "+memberResults[i].lastname+"</p></li>");
+				} else {
+					$("#memberResults ul").append("<li><p class='username' id='"+memberResults[i].userId+"'>"+memberResults[i].firstname+" "+memberResults[i].lastname+"</p></li>");
+				}
+			}
+		}
+		$("#memberAndFileResults").show();
+		$("#memberAndFileFeedback").show();
+		$("#memberResults").show();
+
+	});
+
+	socket.on("Server sending local member results", function(jData){
+		var memberResults = jData.memberResults;
+		// var location = memberResults[0].location
+		$("#memberAndFileFeedback").text("");
+		$("#memberResults").html("<ul></ul>");
+
+		if (jData.memberResults != "") {
+			var isBtnMemberShowMore = false;
+			for (var i = 0; i < memberResults.length; i++) {
+				if (i == 0) {
+					$("#memberResults ul").append("<li><p class='resultsHeader'>Users in "+memberResults[0].location+":</p><p>"+memberResults[i].firstname+" "+memberResults[i].lastname+"</p></li>");
+				} else if (i >= 5){
+					if (isBtnMemberShowMore == false) {
+						$("#memberResults").append("<div id='memberShowMore'><ul></ul></div><button id='btnMemberShowMore'>Show more</button>");
+						isBtnMemberShowMore = true;
+					}
+					$("#memberShowMore ul").append("<li>"+memberResults[i].firstname+" "+memberResults[i].lastname+"</li>");
+				} else {
+					$("#memberResults ul").append("<li>"+memberResults[i].firstname+" "+memberResults[i].lastname+"</li>");
+				}
+			}
+		}
+
+		$("#memberAndFileResults").show();
+		$("#memberAndFileFeedback").show();
+		$("#memberResults").show();
+	});
+
+
+	// *****************************************************************************
+			// FILES SEARCH
+	// *****************************************************************************
+
+	$("#btnSearchFiles").click(function(){
+		membersOrFiles = "files";
+		var colorTheme = localStorage.getItem("colorTheme");
+
+		if (colorTheme == "darkTheme") {
+				$("#btnSearchFiles").css({"color":"#2a2a2a"});
+				$("#btnSearchFiles i").css({"color":"2a2a2a"});
+				$("#btnSearchMembers").css({"background":"#2a2a2a"});
+				$("#btnSearchMembers i").css({"background":"#2a2a2a"});
+			}else {
+				$("#btnSearchFiles").css({"color":"white"});
+				$("#btnSearchFiles i").css({"color":"white"});
+				$("#btnSearchMembers").css({"background":"white"});
+				$("#btnSearchMembers i").css({"background":"white"});
+			}
+
+		$("#btnSearchFiles").css({"background":"#E95A5A"});
+		// $("#btnSearchFiles").css({"color":"white"});
+		$("#btnSearchFiles").css({"box-shadow":"none"});
+		// $("#btnSearchMembers").css({"background":"white"});
+		$("#btnSearchMembers").css({"color":"#E95A5A"});
+		// $("#btnSearchMembers i").css({"background":"white"});
+		$("#btnSearchMembers i").css({"color":"#E95A5A"});
+		$("#btnSearchFiles i").css({"background":"#E95A5A"});
+		// $("#btnSearchFiles i").css({"color":"white"});
+		$("#btnSearchMembers").css({"-webkit-box-shadow":"0px 2px 5px 1px rgba(105,105,105,0.2)"});
+		$("#btnSearchMembers").css({"-moz-box-shadow":"0px 2px 5px 1px rgba(105,105,105,0.2)"});
+		$("#btnSearchMembers").css({"box-shadow":"0px 2px 5px 1px rgba(105,105,105,0.2)"});
+
+		if (localOrGlobal == "global") {
+			searchFilesGlobal();
+		} else if (localOrGlobal == "local") {
+			searchFilesLocal();
+		}
+	});
+
+	function searchFilesGlobal(){
+		$("#searchResults").hide("fast");
+		$("#memberResults").hide("fast");
+		socket.emit("Client searching for global files");
+	}
+
+	function searchFilesLocal(){
+		$("#searchResults").hide("fast");
+		$("#memberResults").hide("fast");
+		if (lastRoom) {
+			localSearch = lastRoom;
+		} else {
+			localSearch = localStorage.getItem("lastRoom");
+		}
+		if (groupsOrClasses == "groups") {
+			socket.emit("Client searching for local files", {"location":localSearch, "groupsOrClasses":"groups"});
+		} else if(groupsOrClasses == "classes"){
+			socket.emit("Client searching for local files", {"location":localSearch, "groupsOrClasses":"classes"});
+		}
+	}
+
+
+	// *****************************************************************************
+			// FILES (global)
+	// *****************************************************************************
+
+	socket.on("Server sending global files results", function(jData){
+		var fileChatResults = jData.fileChatResults;
+		var filePostResults = jData.filePostResults;
+		var fileAssignmentResults = jData.fileAssignmentResults;
+
+		$("#memberAndFileFeedback").text("");
+		$("#fileChatResults").html("<ul></ul>");
+
+		if (fileChatResults.length == 0 && filePostResults.length == 0 && fileAssignmentResults.length == 0){
+			$("#memberAndFileFeedback").append("<p class='resultsHeader'>No files have been posted</p>");
+		} else {
+			$("#fileChatResults ul").append("<li><p class='resultsHeader'>Files in tinkr: </p></li>");
+		}
+
+
+		if (fileChatResults.length != 0) {
+			var isBtnChatUploadShowMore = false;
+			$("#fileChatResults ul").append("<li><p class='resultsHeaderSmall'>Chat messages: </p></li>");
+
+			for (var i = 0; i < fileChatResults.length; i++) {
+				if (i >= 5){
+					if (isBtnChatUploadShowMore == false) {
+						$("#fileChatResults").append("<div id='chatUploadShowMore'><ul></ul></div><button id='btnChatUploadShowMore'>Show more</button>");
+						isBtnChatUploadShowMore = true;
+					}
+					$("#chatUploadShowMore ul").append("<li><p><a href='/uploads/"+fileChatResults[i]+"' target='_blank'>"+fileChatResults[i]+"</a></p></li>");
+				} else {
+					$("#fileChatResults ul").append("<li><p><a href='/uploads/"+fileChatResults[i]+"' target='_blank'>"+fileChatResults[i]+"</a></p></li>");
+				}
+			}
+		}
+		$("#filePostResults").html("<ul></ul>");
+		if (filePostResults.length != 0) {
+			var isBtnPostUploadShowMore = false;
+			$("#filePostResults ul").append("<li><p class='resultsHeaderSmall'>Posts: </p></li>");
+
+			for (var i = 0; i < filePostResults.length; i++) {
+				if (i >= 5){
+					if (isBtnPostUploadShowMore == false) {
+						$("#filePostResults").append("<div id='postUploadShowMore'><ul></ul></div><button id='btnPostUploadShowMore'>Show more</button>");
+						isBtnPostUploadShowMore = true;
+					}
+					$("#postUploadShowMore ul").append("<li><p><a href='/uploads/"+filePostResults[i]+"' target='_blank'>"+filePostResults[i]+"</a></p></li>");
+				} else {
+					$("#filePostResults ul").append("<li><p><a href='/uploads/"+filePostResults[i]+"' target='_blank'>"+filePostResults[i]+"</a></p></li>");
+				}
+			}
+		}
+		$("#fileAssignmentResults").html("<ul></ul>");
+		if (fileAssignmentResults.length != 0) {
+			var isBtnAssignmentShowMore = false;
+			$("#fileAssignmentResults ul").append("<li><p class='resultsHeaderSmall'>Assignments: </p></li>");
+
+			for (var i = 0; i < fileAssignmentResults.length; i++) {
+				if (i >= 5){
+					if (isBtnAssignmentShowMore == false) {
+						$("#fileAssignmentResults").append("<div id='assignmentUploadShowMore'><ul></ul></div><button id='btnAssignmentUploadShowMore'>Show more</button>");
+						isBtnAssignmentShowMore = true;
+					}
+					$("#assignmentUploadShowMore ul").append("<li><p><a href='/uploads/"+fileAssignmentResults[i]+"' target='_blank'>"+fileAssignmentResults[i]+"</a></p></li>");
+				} else {
+					$("#fileAssignmentResults ul").append("<li><p><a href='/uploads/"+fileAssignmentResults[i]+"' target='_blank'>"+fileAssignmentResults[i]+"</a></p></li>");
+				}
+			}
+		}
+
+		$("#memberAndFileResults").show();
+		$("#memberAndFileFeedback").show();
+		$("#fileChatResults").show();
+		$("#filePostResults").show();
+		$("#fileAssignmentResults").show();
+	});
+
+
+	// *****************************************************************************
+			// FILES (local)
+	// *****************************************************************************
+
+	socket.on("Server sending local file results", function(jData){
+		var fileChatResults = jData.fileChatResults;
+		var filePostResults = jData.filePostResults;
+		var fileAssignmentResults = jData.fileAssignmentResults;
+		var location = jData.location;
+
+		$("#memberAndFileFeedback").text("");
+		$("#fileChatResults").html("<ul></ul>");
+
+		if (fileChatResults.length == 0 && filePostResults.length == 0 && fileAssignmentResults.length == 0){
+			$("#memberAndFileFeedback").append("<p class='resultsHeader'>No files have been posted</p>");
+		} else {
+			$("#fileChatResults ul").append("<li><p class='resultsHeader'>Files posted in "+location+": </p></li>");
+		}
+
+		if (jData.fileChatResults != "") {
+			var isBtnChatUploadShowMore = false;
+			for (var i = 0; i < fileChatResults.length; i++) {
+				if (i == 0) {
+					$("#fileChatResults ul").append("<li><p class='resultsHeaderSmall'>Chat messages: </p><p><a href='/uploads/"+fileChatResults[i].chatUpload+"' target='_blank'>"+fileChatResults[i].chatUpload+"</a></p></li>");
+				} else if (i >= 5){
+					if (isBtnChatUploadShowMore == false) {
+						$("#fileChatResults").append("<div id='chatUploadShowMore'><ul></ul></div><button id='btnChatUploadShowMore'>Show more</button>");
+						isBtnChatUploadShowMore = true;
+					}
+					$("#chatUploadShowMore ul").append("<li><p><a href='/uploads/"+fileChatResults[i].chatUpload+"' target='_blank'>"+fileChatResults[i].chatUpload+"</a></p></li>");
+				} else {
+					$("#fileChatResults ul").append("<li><p><a href='/uploads/"+fileChatResults[i].chatUpload+"' target='_blank'>"+fileChatResults[i].chatUpload+"</a></p></li>");
+				}
+			}
+		}
+
+		$("#filePostResults").html("<ul></ul>");
+		if (jData.filePostResults != "") {
+			var isBtnPostUploadShowMore = false;
+
+			for (var i = 0; i < filePostResults.length; i++) {
+				if (i == 0) {
+					$("#filePostResults ul").append("<li><p class='resultsHeaderSmall'>Posts: </p><p><a href='/uploads/"+filePostResults[i].postUpload+"' target='_blank'>"+filePostResults[i].postUpload+"</a></p></li>");
+				} else if (i >= 5){
+					if (isBtnPostUploadShowMore == false) {
+						$("#filePostResults").append("<div id='postUploadShowMore'><ul></ul></div><button id='btnPostUploadShowMore'>Show more</button>");
+						isBtnPostUploadShowMore = true;
+					}
+					$("#postUploadShowMore ul").append("<li><p><a href='/uploads/"+filePostResults[i].postUpload+"' target='_blank'>"+filePostResults[i].postUpload+"</a></p></li>");
+				} else {
+					$("#filePostResults ul").append("<li><p><a href='/uploads/"+filePostResults[i].postUpload+"' target='_blank'>"+filePostResults[i].postUpload+"</a></p></li>");
+				}
+			}
+		}
+
+		$("#fileAssignmentResults").html("<ul></ul>");
+		if (jData.fileAssignmentResults != "") {
+			var isBtnAssignmentShowMore = false;
+
+			for (var i = 0; i < fileAssignmentResults.length; i++) {
+				if (i == 0) {
+					$("#fileAssignmentResults ul").append("<li><p class='resultsHeaderSmall'>Assignments: </p><p><a href='/uploads/"+fileAssignmentResults[i].assignmentUpload+"' target='_blank'>"+fileAssignmentResults[i].assignmentUpload+"</a></p></li>");
+				} else if (i >= 5){
+					if (isBtnAssignmentShowMore == false) {
+						$("#fileAssignmentResults").append("<div id='assignmentUploadShowMore'><ul></ul></div><button id='btnAssignmentUploadShowMore'>Show more</button>");
+						isBtnAssignmentShowMore = true;
+					}
+					$("#assignmentUploadShowMore ul").append("<li><p><a href='/uploads/"+fileAssignmentResults[i].assignmentUpload+"' target='_blank'>"+fileAssignmentResults[i].assignmentUpload+"</a></p></li>");
+				} else {
+					$("#fileAssignmentResults ul").append("<li><p><a href='/uploads/"+fileAssignmentResults[i].assignmentUpload+"' target='_blank'>"+fileAssignmentResults[i].assignmentUpload+"</a></p></li>");
+				}
+			}
+		}
+
+		$("#memberAndFileResults").show();
+		$("#memberAndFileFeedback").show();
+		$("#fileChatResults").show();
+		$("#filePostResults").show();
+		$("#fileAssignmentResults").show();
+	});
+
+
+	// *****************************************************************************
+		// SEARCH BUTTONS
+	// *****************************************************************************
+
+	$("body").on("click", "#btnPostShowMore", function(){
+		if ($("#btnPostShowMore").text() == "Show more") {
+			$("#btnPostShowMore").text("Show less");
+		} else {
+			$("#btnPostShowMore").text("Show more");
+		}
+
+		$("#btnChatShowMore").text("Show more");
+		$("#btnUserShowMore").text("Show more");
+		$("#btnAssignmentShowMore").text("Show more");
+		$("#postShowMore").toggle("slow");
+		$("#chatShowMore").hide("slow");
+		$("#userShowMore").hide("slow");
+		$("#assignmentShowMore").hide("slow");
+	});
+
+	$("body").on("click", "#btnChatShowMore", function(){
+		if ($("#btnChatShowMore").text() == "Show more") {
+			$("#btnChatShowMore").text("Show less");
+		} else {
+			$("#btnChatShowMore").text("Show more");
+		}
+
+		$("#btnPostShowMore").text("Show more");
+		$("#btnUserShowMore").text("Show more");
+		$("#btnAssignmentShowMore").text("Show more");
+		$("#chatShowMore").toggle("slow");
+		$("#postShowMore").hide("slow");
+		$("#userShowMore").hide("slow");
+		$("#assignmentShowMore").hide("slow");
+	});
+
+	$("body").on("click", "#btnUserShowMore", function(){
+		if ($("#btnUserShowMore").text() == "Show more") {
+			$("#btnUserShowMore").text("Show less");
+		} else {
+			$("#btnUserShowMore").text("Show more");
+		}
+
+		$("#btnPostShowMore").text("Show more");
+		$("#btnChatShowMore").text("Show more");
+		$("#btnAssignmentShowMore").text("Show more");
+		$("#userShowMore").toggle("slow");
+		$("#postShowMore").hide("slow");
+		$("#chatShowMore").hide("slow");
+		$("#assignmentShowMore").hide("slow");
+	});
+
+	$("body").on("click", "#btnAssignmentShowMore", function(){
+		if ($("#btnAssignmentShowMore").text() == "Show more") {
+			$("#btnAssignmentShowMore").text("Show less");
+		} else {
+			$("#btnAssignmentShowMore").text("Show more");
+		}
+
+		$("#btnPostShowMore").text("Show more");
+		$("#btnChatShowMore").text("Show more");
+		$("#btnUserShowMore").text("Show more");
+		$("#assignmentShowMore").toggle("slow");
+		$("#postShowMore").hide("slow");
+		$("#chatShowMore").hide("slow");
+		$("#userShowMore").hide("slow");
+	});
+
+
+	// *****************************************************************************
+			// FILES AND MEMBERS BUTTONS
+	// *****************************************************************************
+
+	$("body").on("click", "#btnAssignmentUploadShowMore", function(){
+		if ($("#btnAssignmentUploadShowMore").text() == "Show more") {
+			$("#btnAssignmentUploadShowMore").text("Show less");
+		} else {
+			$("#btnAssignmentUploadShowMore").text("Show more");
+		}
+		$("#btnPostUploadShowMore").text("Show more");
+		$("#btnChatUploadShowMore").text("Show more");
+
+		$("#chatUploadShowMore").hide("slow");
+		$("#postUploadShowMore").hide("slow");
+
+		$("#assignmentUploadShowMore").toggle("slow");
+
+	});
+
+	$("body").on("click", "#btnPostUploadShowMore", function(){
+		if ($("#btnPostUploadShowMore").text() == "Show more") {
+			$("#btnPostUploadShowMore").text("Show less");
+		} else {
+			$("#btnPostUploadShowMore").text("Show more");
+		}
+		$("#btnChatUploadShowMore").text("Show more");
+		$("#btnAssignmentUploadShowMore").text("Show more");
+
+		$("#postUploadShowMore").toggle("slow");
+
+		$("#chatUploadShowMore").hide("slow");
+		$("#assignmentUploadShowMore").hide("slow");
+	});
+
+	$("body").on("click", "#btnChatUploadShowMore", function(){
+		if ($("#btnChatUploadShowMore").text() == "Show more") {
+			$("#btnChatUploadShowMore").text("Show less");
+		} else {
+			$("#btnChatUploadShowMore").text("Show more");
+		}
+		$("#btnPostUploadShowMore").text("Show more");
+		$("#btnAssignmentUploadShowMore").text("Show more");
+
+		$("#postUploadShowMore").hide("slow");
+		$("#assignmentUploadShowMore").hide("slow");
+
+		$("#chatUploadShowMore").toggle("slow");
+	});
+
+	$("body").on("click", "#btnMemberShowMore", function(){
+		if ($("#btnMemberShowMore").text() == "Show more") {
+			$("#btnMemberShowMore").text("Show less");
+		} else {
+			$("#btnMemberShowMore").text("Show more");
+		}
+		$("#btnPostUploadShowMore").text("Show more");
+		$("#btnAssignmentUploadShowMore").text("Show more");
+
+		$("#postUploadShowMore").hide("slow");
+		$("#assignmentUploadShowMore").hide("slow");
+
+		$("#memberShowMore").toggle("slow");
+	});
+
+
+	// *****************************************************************************
+			// DIRECT MESSAGING
+	// *****************************************************************************
+
+
+	// clicking on any username in the system
+	$("body").on("click", ".username", function(){
+		var clickedUsername = $(this).text();
+		var currentUser = $("#txtUsername").text();
+		var clickedUsernameId = $(this).attr("id");
+		var currentUserId = localStorage.getItem("userId");
+
+		// if key directMessages IS set in localStorage
+		if (localStorage.getItem("directMessages") != null){
+			var openConversations = localStorage.getItem("directMessages");
+			openConversations = openConversations.split(",");
+
+			if (openConversations.indexOf(clickedUsernameId) > -1){
+				console.log("UserId conversation IS open");
+				return;
+			} else {
+				var tempConversations = openConversations;
+				tempConversations.push(clickedUsernameId);
+				localStorage.setItem("directMessages",tempConversations);
+			}
+		} else {
+			var tempConversations = [];
+			tempConversations.push(clickedUsernameId);
+			localStorage.setItem("directMessages", tempConversations);
+		}
+
+		if ($("#txtDirectMessagesNames").find('#'+clickedUsernameId).length > 0){
+			socket.emit("Client requesting messages for direct conversation", {"clickedUsername":clickedUsername, "currentUser":currentUser, "clickedUsernameId":clickedUsernameId, "currentUserId":currentUserId, "load":false});
+		} else {
+			socket.emit("Client starting new direct conversation", {"clickedUsername":clickedUsername, "currentUser":currentUser, "clickedUsernameId":clickedUsernameId, "currentUserId":currentUserId});
+		}
+	});
+
+
+	// creating new conversation
+	socket.on("Server has created direct message between", function(jData){
+		var currentUserId = localStorage.getItem("userId");
+		var clickedUsername = jData.clickedUsername;
+		var currentUser = jData.currentUser;
+		var clickedUsernameId = jData.clickedUsernameId;
+		var currentUserId = jData.currentUserId;
+		var dmContainerId = jData.location;
+		var openConversations = localStorage.getItem("directMessages");
+
+		if (currentUserId == jData.currentUserId) {
+			$("#txtDirectMessagesNames").append("<div id='dmUsername'><p id='"+jData.insertId+"' class='username'>"+jData.clickedUsername+"</p><i class='fa fa-times' aria-hidden='true'></i></div>");
+		} else if (currentUserId == jData.clickedUsernameId) {
+			$("#txtDirectMessagesNames").append("<div id='dmUsername'><p id='"+jData.insertId+"' class='username'>"+jData.currentUser+"</p><i class='fa fa-times' aria-hidden='true'></i></div>");
+		}
+
+		socket.emit("Client requesting messages for direct conversation", {"clickedUsername":clickedUsername, "currentUser":currentUser, "clickedUsernameId":clickedUsernameId, "currentUserId":currentUserId, "load":false});
+	});
+
+
+	// getting all messages, both on load and when new conversation is opened
+	socket.on("Server sending messages for direct conversation", function(jData){
+		var openConversations = localStorage.getItem("directMessages");
+		var clickedUsernameId = jData.clickedUsernameId;
+		var clickedUsername = jData.clickedUsername;
+		var currentUserId = localStorage.getItem("userId");
+
+		// if there are no messages sent
+		if (jData.noMessages == true){
+			var dmContainerId = jData.dmContainerId;
+
+			$("#directMessagesContainer").append("<div id='"+dmContainerId+"' class='directMessageBox'><div class='chatTabHeader' id='chatTab"+dmContainerId+"'><p class='chatTabUsername' id='"+clickedUsernameId+"'>"+clickedUsername+"</p><p class='exitDM'><i class='fa fa-times' aria-hidden='true'></i></p></div><div class='messagesContainer' id='messagesContainer"+dmContainerId+"'></div></div>");
+
+			$("#"+dmContainerId).append("<div class='sendDirectMessage' id='sendDirectMessage"+dmContainerId+"'><input class='directMessagesInput' id='input"+dmContainerId+"' type='text' placeholder='Type your message here'/><button id='btnSendDM'>Send</button></div>");
+
+			// if there are messages sent
+		} else {
+			var dmContainerId = jData.rows[0].location;
+			$("#directMessagesContainer").append("<div id='"+dmContainerId+"' class='directMessageBox'><div class='chatTabHeader' id='chatTab"+dmContainerId+"'><p class='chatTabUsername' id='"+clickedUsernameId+"'>"+clickedUsername+"</p><p class='exitDM'><i class='fa fa-times aria-hidden='true'></i></p></div><div class='messagesContainer' id='messagesContainer"+dmContainerId+"'></div></div>");
+
+			for (var i = 0; i < jData.rows.length; i++){
+				if (jData.rows[i].poster == currentUserId){
+					$("#messagesContainer"+dmContainerId).append("<div class='directMessagesOwn' id='"+jData.rows[i].poster+"'><p>"+jData.rows[i].chatMessage+"</p></div>");
+				} else {
+					$("#messagesContainer"+dmContainerId).append("<div class='directMessages' id='"+jData.rows[i].poster+"'><p>"+jData.rows[i].chatMessage+"</p></div>");
+				}
+			}
+
+			$("#"+dmContainerId).append("<div class='sendDirectMessage' id='sendDirectMessage"+dmContainerId+"'><input class='directMessagesInput' id='input"+dmContainerId+"' type='text' placeholder='Type your message here'/><button id='btnSendDM'>Send</button></div>");
+		}
+		$(".messagesContainer").animate({ scrollTop: $('.directMessageBox').prop("scrollHeight")}, 200);
+	});
+
+
+	// sending a new message
+	function sendDirectMessage(event){
+		if( !event ) event = window.event;
+		var x = event.target||event.srcElement;
+		var directConversationId = $(event.target).parent().parent().attr("id");
+		var directMessage = $("#input"+directConversationId).val();
+		var currentUserId = localStorage.getItem("userId");
+
+		console.log("directConversationId: "+directConversationId);
+		console.log("directMessage: "+directMessage);
+
+		socket.emit("Client sending new direct message", {"directMessage":directMessage, "directConversationId":directConversationId, "userId":userId});
+		$('#input'+directConversationId).val("");
+	}
+
+
+	// clicking button to send message
+	$("body").on("click", "#btnSendDM", function(event){
+		if( !event ) event = window.event;
+		var x = event.target||event.srcElement;
+		sendDirectMessage(event);
+	});
+
+
+	// hitting enter to send message
+	$("body").on("keyup", ".directMessagesInput", function(event) {
+		if (event.which == 13) {
+			if( !event ) event = window.event;
+			var x = event.target||event.srcElement;
+			sendDirectMessage(event);
+			return;
+		}
+	});
+
+
+	// getting new message back from server
+	socket.on("Server sending new direct message back", function(jData){
+		var dmContainerId = jData.directConversationId;
+		var currentUserId = localStorage.getItem("userId");
+
+		// if message is from user logged in
+		if (jData.userId == currentUserId){
+			$("#messagesContainer"+dmContainerId).append("<div class='directMessagesOwn' id='"+jData.userId+"'><p>"+jData.directMessage+"</p></div>");
+		} else {
+			$("#messagesContainer"+dmContainerId).append("<div class='directMessages' id='"+jData.userId+"'><p>"+jData.directMessage+"</p></div>");
+		}
+		$(".messagesContainer").animate({ scrollTop: $('.directMessageBox').prop("scrollHeight")}, 200);
+	});
+
+
+	// close tab
+	$("body").on("click", ".exitDM", function(){
+		var currentDMUserID = $(this).parent().find(".chatTabUsername").attr("id");
+		var currentDMContainer = $(this).parent().parent().attr("id");
+		var openConversations = localStorage.getItem("directMessages");
+		openConversations = openConversations.split(",");
+		openConversations = jQuery.grep(openConversations, function(value){
+			return value != currentDMUserID;
+		});
+		if (openConversations.length > 0){
+			localStorage.setItem("directMessages", openConversations);
+		} else {
+			localStorage.removeItem("directMessages");
+		}
+		$("#"+currentDMContainer).remove();
+	});
+
+
+	var minimized = false;
+
+	// minimize tab
+	$("body").on("click", ".chatTabHeader", function(e){
+		if(e.target == ".exitDM") return;
+		var currentDMContainer = $(this).parent().attr("id");
+		if ($("#"+currentDMContainer).hasClass("minimize") == true){
+			$("#"+currentDMContainer).removeClass("minimize");
+		} else {
+			$("#"+currentDMContainer).addClass("minimize");
+		}
+	});
+
+	$("body").on("mouseenter", "#txtDirectMessagesNames .dmUsername", function(e){
+		$(this).find("i").show();
+	});
+
+	$("body").on("mouseleave", "#txtDirectMessagesNames .dmUsername", function(e){
+		$(this).find("i").hide();
+	});
+
+	$("body").on("click", ".dmUsername i", function(e){
+		var userId = localStorage.getItem("userId");
+		var clickedUserId = $(this).parent().parent().attr("id");
+		console.log("clickedUsernameId: "+clickedUserId);
+		// socket.emit("Client sending direct conversation for deletion", );
+		$(this).parent().remove();
+	});
+
+
+	// *****************************************************************************
+			// NOTIFICATIONS
+	// *****************************************************************************
+
+	var isActive;
+
+	window.onfocus = function() {
+		isActive = true;
+	}
+
+	window.onblur = function() {
+		isActive = false;
+	}
+
+	function chatAlert(username, message) {
+		if (isActive == false) {
+			if (!("Notification" in window)) {
+				alert("This browser does not support desktop notification");
+			}
+			else if (Notification.permission === "granted") {
+				var options = {
+					body: message,
+					icon: "http://csshexagon.com/img/meow.jpg",
+					dir : "ltr"
+				};
+				var notification = new Notification(username, options);
+			}
+			else if (Notification.permission !== 'denied') {
+				Notification.requestPermission(function (permission) {
+					if (!('permission' in Notification)) {
+						Notification.permission = permission;
+					}
+
+					if (permission === "granted") {
+						var options = {
+							body: message,
+							icon: "http://csshexagon.com/img/meow.jpg",
+							dir : "ltr"
+						};
+						var notification = new Notification(username, options);
+					}
+				});
+			}
+		}
+	}
+
+	function notificationAlert(title, description) {
+		if (isActive == false) {
+			if (!("Notification" in window)) {
+				alert("This browser does not support desktop notification");
+			}
+			else if (Notification.permission === "granted") {
+				var options = {
+					body: description,
+					icon: "http://csshexagon.com/img/meow.jpg",
+					dir : "ltr"
+				};
+				var notification = new Notification(title, options);
+			}
+			else if (Notification.permission !== 'denied') {
+				Notification.requestPermission(function (permission) {
+					if (!('permission' in Notification)) {
+						Notification.permission = permission;
+					}
+
+					if (permission === "granted") {
+						var options = {
+							body: description,
+							icon: "http://csshexagon.com/img/meow.jpg",
+							dir : "ltr"
+						};
+						var notification = new Notification(title,options);
+					}
+				});
+			}
+		}
+	}
+
+</script>
+</body>
+</html>
+

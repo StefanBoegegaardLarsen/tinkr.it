@@ -1,0 +1,15 @@
+{
+  "author": "Caroline Larsen",
+  "description": "tinkr.it",
+  "version": "1.1.0",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "1.17.1",
+    "express": "4.14.1",
+    "mongodb": "2.2.26",
+    "mysql": "2.13.0",
+    "socket.io": "1.7.3",
+    "socketio-file-upload": "^0.6.0",
+    "validate-password": "1.0.4"
+  }
+}

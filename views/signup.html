@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>tinkr.it</title>
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:200,300,400,500,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="/styles/signup.css">
+</head>
+<body>
+	<div id="signupHeader">
+		<div id="logo"></div>
+	</div>
+
+	<div id="signupBodyContainer">
+		<div id="signupContainer">
+			<div id="navigation">
+				<div id="stepBorder"></div>
+				<div id="stepBorderRed"></div>
+				<div id="steps">
+					<div id="stepOne" class="step">1</div>
+					<div id="stepTwo" class="step">2</div>
+					<div id="stepThree" class="step">3</div>
+				</div>
+			</div>
+			<div id="stepContainers">
+				<div id="stepOneContainer" class="stepContainer">
+					<div id="stepContainerTop">
+						<h1 class="signupH1">Welcome to <span class='changeColor'>tinkr.it</span></h1><br>
+						<p>Let's get to know you</p>
+						<input type="text" name="txtEmail" placeholder="Email" id="txtEmail">
+						<input type="text" name="txtFirstName" placeholder="First name" id="txtFirstName">
+						<input type="text" name="txtLastName" placeholder="Last name" id="txtLastName">
+						<p><span class="txtFeedBack"></span></p>
+					</div>
+					<div id="stepContainerBottom">
+						<p>Already have an account? <a href="/login">Sign in here</a></p>
+						<button id="btnNextToTwo">Next</button>
+					</div>
+				</div>
+				<div id="stepTwoContainer" class="stepContainer">
+					<div id="stepContainerTop">
+						<h1 class="signupH1">Welcome to <span class='changeColor'>tinkr.it</span></h1><br>
+						<p>Hi <span class="chosenFirstName">FirstName</span></p>
+						<p class="choosePassword">Which password would you like to use?</p>
+						<input type="password" name="txtUserPass" placeholder="Password" id="txtUserPass">
+						<input type="password" name="txtUserPassConfirm" placeholder="Confirm password" id="txtUserPassConfirm">
+						<p><span class="txtFeedBack"></span></p>
+					</div>
+					<div id="stepContainerBottom">
+						<button id="btnBackToOne">Back</button>
+						<button id="btnNextToThree">Next</button>
+					</div>
+
+				</div>
+				<div id="stepThreeContainer" class="stepContainer">
+					<div id="stepContainerTop">
+						<h1 class="signupH1">Welcome to <span class='changeColor'>tinkr.it</span></h1><br>
+						<p>So, does everything look correct?</p>
+						<br>
+						<p>Firstname: <span class="chosenFirstName">FirstName</span></p>
+						<br>
+						<p>Lastname: <span class="chosenLastName">LastName</span> </p>
+						<br>
+						<p>Email: <span id="chosenEmail">email@email.com</span></p>
+						<br>
+						<p>Password: Chosen password</p>
+						<br>
+						<p><span class="txtFeedBack"></span></p>
+					</div>
+					<div id="stepContainerBottom">
+						<button id="btnBackToTwo">Back</button>
+						<button id="btnCreateUser">Submit</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.slim.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script>
+		var socket = io.connect("localhost:3334");
+		var sEmail = $("#txtEmail").val();
+		var sFirstName = $("#txtFirstName").val();
+		var sLastName = $("#txtLastName").val();
+		var sUserPass = $("#txtUserPass").val();
+		var sUserPassConfirm = $("#txtUserPassConfirm").val();
+		var currentFocus;
+		$(document).ready(function(){
+			if (localStorage.getItem('rememberLogin') != null) {
+				var retrievedObject = localStorage.getItem('rememberLogin');
+				var parsedToken = JSON.parse(retrievedObject);
+				console.log(parsedToken.token);
+				if (parsedToken.token == "secretToken" && parsedToken != null) {
+					console.log("You're getting redirected");
+					window.location.assign('/dash');
+				}};
+				$("#txtEmail").text(sEmail);
+				$("#stepBorderRed").animate({width: 100}, 500 );
+				$("#stepOneContainer").css('visibility','visible').hide().fadeIn('slow');
+				$("#stepOneContainer").addClass("moveFromRightToMiddle");
+				setTimeout(function(){
+					$("#stepOne").addClass("stepActive");
+				}, 300)
+			// check which input field the users is typing in
+			$( "#txtEmail" ).focus(function() {
+				currentFocus = "email";
+				console.log(currentFocus);
+			});
+			$( "#txtFirstName" ).focus(function() {
+				currentFocus = "firstname";
+				console.log(currentFocus);
+			});
+			$( "#txtLastName" ).focus(function() {
+				currentFocus = "lastname";
+				console.log(currentFocus);
+			});
+			$( "#txtUserPass" ).focus(function() {
+				currentFocus = "password";
+				console.log(currentFocus);
+			});
+			$( "#txtUserPassConfirm" ).focus(function() {
+				currentFocus = "passwordConfirm";
+				console.log(currentFocus);
+			});
+
+			$("#stepContainers").keyup(function(event){
+				if(event.keyCode == 13){
+					createUser();
+				};
+				sEmail = $("#txtEmail").val();
+				sFirstName = $("#txtFirstName").val();
+				sLastName = $("#txtLastName").val();
+				sUserPass = $("#txtUserPass").val();
+				sUserPassConfirm = $("#txtUserPassConfirm").val();
+				switch(currentFocus) {
+					case "email":
+					if(/\s/g.test(sEmail) == true){
+						$(".txtFeedBack").text("spaces are not allowed").hide().fadeIn('slow');
+						$("#txtEmail").css({"border":"#E95A5A 1px solid"});
+					}else{
+						$(".txtFeedBack").text("").hide().fadeOut('slow');
+						$("#txtUserPass").css({"border":"none"});
+						$("#txtUserPass").css({"border-bottom":"1px solid #c7c7c7"});
+					}
+					break;
+					case "firstname":
+					var matches = sFirstName.match(/\d+/g);
+					if(matches != null){
+						$(".txtFeedBack").text("Numbers are not allowed").hide().fadeIn('slow');
+						$("#txtFirstName").css({"border":"#E95A5A 1px solid"});
+					}else{
+						$(".txtFeedBack").text("").hide().fadeOut('slow');
+						$("#txtFirstName").css({"border":"none"});
+						$("#txtFirstName").css({"border-bottom":"1px solid #c7c7c7"});
+					}
+					break;
+					case "lastname":
+					var matches = sLastName.match(/\d+/g);
+					if(matches != null){
+						$(".txtFeedBack").text("Numbers are not allowed").hide().fadeIn('slow');
+						$("#txtLastName").css({"border":"#E95A5A 1px solid"});
+					}else{
+						$(".txtFeedBack").text("").hide().fadeOut('slow');
+						$("#txtLastName").css({"border":"none"});
+						$("#txtLastName").css({"border-bottom":"1px solid #c7c7c7"});
+					}
+					break;
+					case "password":
+					if(/\s/g.test(sUserPass) == true){
+						$(".txtFeedBack").text("spaces are not allowed").hide().fadeIn('slow');
+						$("#txtUserPass").css({"border":"#E95A5A 1px solid"});
+					}else{
+						$(".txtFeedBack").text("").hide().fadeOut('slow');
+						$("#txtUserPass").css({"border":"none"});
+						$("#txtUserPass").css({"border-bottom":"1px solid #c7c7c7"});
+					}
+					break;
+					case "passwordConfirm":
+					if(/\s/g.test(sUserPassConfirm) == true){
+						$(".txtFeedBack").text("spaces are not allowed").hide().fadeIn('slow');
+						$("#txtUserPassConfirm").css({"border":"#E95A5A 1px solid"});
+					}else{
+						$(".txtFeedBack").text("").hide().fadeOut('slow');
+						$("#txtUserPassConfirm").css({"border":"none"});
+						$("#txtUserPassConfirm").css({"border-bottom":"1px solid #c7c7c7"});
+					}
+					default:
+				};
+			});
+		});
+
+		$("#btnNextToTwo").click(function(){
+			if (sEmail == "" || sFirstName == "" || sLastName == "") {
+				$(".txtFeedBack").text("Please fill out all fields").hide().fadeIn('slow');
+				$("#txtEmail").css({"border":"#E95A5A 1px solid"});
+				$("#txtFirstName").css({"border":"#E95A5A 1px solid"});
+				$("#txtLastName").css({"border":"#E95A5A 1px solid"});
+			}else if(!isValidEmailAddress(sEmail)){
+				$(".txtFeedBack").text("email not valid").hide().fadeIn('slow');
+				$("#txtEmail").css({"border":"#E95A5A 1px solid"});
+			}else{
+				sEmail = $("#txtFirstName").val();
+				sFirstName = $("#txtFirstName").val();
+				sLastName = $("#txtLastName").val();
+				$(".chosenEmail").text(sEmail);
+				$(".chosenFirstName").text(sFirstName);
+				$(".chosenLastName").text(sLastName);
+				$(".txtFeedBack").text("").hide().fadeOut('slow');
+				$("#txtFirstName").css({"border":"none"});
+				$("#txtFirstName").css({"border-bottom":"1px solid #c7c7c7"});
+				$("#txtLastName").css({"border":"none"});
+				$("#txtLastName").css({"border-bottom":"1px solid #c7c7c7"});
+				nextToTwo();
+			};
+		});
+		// creazy email validation regex
+		function isValidEmailAddress(emailAddress) {
+			var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+			return pattern.test(emailAddress);
+		};
+		$("#btnNextToThree").click(function(){
+			if (sUserPass == "" || sUserPassConfirm == "") {
+				$(".txtFeedBack").text("Please fill out both password and confirmation field").hide().fadeIn('slow');
+				$("#txtUserPass").css({"border":"#E95A5A 1px solid"});
+				$("#txtUserPassConfirm").css({"border":"#E95A5A 1px solid"});
+			}else{
+				sUserPass = $("#txtUserPass").val();
+				sUserPassConfirm = $("#txtUserPassConfirm").val();
+				if(sUserPass != sUserPassConfirm){
+					$(".txtFeedBack").text("The passwords does not match").hide().fadeIn('slow');
+					$("#txtUserPass").css({"border":"#E95A5A 1px solid"});
+					$("#txtUserPassConfirm").css({"border":"#E95A5A 1px solid"});
+				}else{
+					$(".txtFeedBack").text("").hide().fadeOut('slow');
+					$("#txtUserPass").css({"border":"none"});
+					$("#txtUserPass").css({"border-bottom":"1px solid #c7c7c7"});
+					$("#txtUserPassConfirm").css({"border":"none"});
+					$("#txtUserPassConfirm").css({"border-bottom":"1px solid #c7c7c7"});
+					nextToThree();
+				};
+			};
+		});
+		$("#btnBackToTwo").click(function(){
+			backToTwo();
+		});
+		$("#btnBackToOne").click(function(){
+			backToOne();
+		});
+		function nextToTwo(){
+			$("#stepBorderRed").animate({width: 210}, 300 );
+			$("#stepOneContainer").removeClass("moveFromLeftToMiddle");
+			$("#stepOneContainer").removeClass("moveFromMiddleToLeft");
+			$("#stepOneContainer").removeClass("moveFromRightToMiddle");
+			$("#stepOneContainer").addClass("moveFromMiddleToLeft");
+			$("#stepTwoContainer").css('visibility','visible').hide().fadeIn('slow');
+			$("#stepTwoContainer").removeClass("moveFromMiddleToRight");
+			$("#stepTwoContainer").addClass("moveFromRightToMiddle");
+			setTimeout(function(){
+				$("#stepOneContainer").css('visibility','hidden').hide().fadeOut('slow');
+			}, 32)
+			setTimeout(function(){
+				$("#stepTwo").removeClass("stepNotActive");
+				$("#stepTwo").addClass("stepActive");
+			}, 350)
+		};
+
+		function backToOne(){
+			$(".txtFeedBack").text("").hide().fadeOut('slow');
+			$("#stepTwo").addClass("stepNotActive");
+			$("#stepBorderRed").animate({width: 100}, 100 );
+			$("#stepTwoContainer").css('visibility','hidden').hide().fadeOut('slow');
+			$("#stepOneContainer").removeClass("moveFromMiddleToLeft");
+			$("#stepOneContainer").css('visibility','visible').hide().fadeIn('slow');
+			$("#stepThreeContainer").css('visibility','hidden').hide().fadeOut('slow');
+			$("#stepTwoContainer").removeClass("moveFromRightToMiddle");
+			$("#stepOneContainer").addClass("moveFromLeftToMiddle");
+			$("#stepTwoContainer").addClass("moveFromMiddleToRight");
+		};
+
+		function nextToThree(){
+			$("#stepBorderRed").animate({width: 350}, 350 );
+			$("#stepTwoContainer").css('visibility','hidden').hide().fadeOut('slow');
+			$("#stepTwoContainer").removeClass("moveFromLeftToMiddle");
+			$("#stepTwoContainer").removeClass("moveFromMiddleToLeft");
+			$("#stepThreeContainer").css('visibility','visible').hide().fadeIn('slow');
+			$("#stepTwoContainer").removeClass("moveFromRightToMiddle");
+			$("#stepTwoContainer").addClass("moveFromMiddleToLeft");
+			$("#stepThreeContainer").removeClass("moveFromMiddleToRight");
+			$("#stepThreeContainer").addClass("moveFromRightToMiddle");
+			setTimeout(function(){
+				$("#stepThree").removeClass("stepNotActive");
+				$("#stepThree").addClass("stepActive");
+			}, 350)
+		};
+
+		function backToTwo(){
+			$(".txtFeedBack").text("").hide().fadeOut('slow');
+			$("#stepThreeContainer").css('visibility','hidden').hide().fadeOut('slow');
+			$("#stepTwoContainer").css('visibility','visible').hide().fadeIn('slow');
+			$("#stepThree").addClass("stepNotActive");
+			$("#stepBorderRed").animate({width: 210}, 300 );
+			$("#stepTwoContainer").removeClass("moveFromMiddleToLeft");
+			$("#stepThreeContainer").removeClass("moveFromRightToMiddle");
+			$("#stepTwoContainer").addClass("moveFromLeftToMiddle");
+			$("#stepThreeContainer").addClass("moveFromMiddleToRight");
+		};
+
+		// submit button click
+		$("#btnCreateUser").click(function(){
+			createUser();
+		});
+		// get data from form
+		function createUser(){
+			if (sFirstName != "" && sLastName != "" && sUserPass != "" && sUserPassConfirm != "") {
+				if (sUserPass != sUserPassConfirm) {
+					$(".txtFeedBack").text("passwords does not match").hide().fadeIn('slow');
+					$("#txtUserPass").css({"border":"#E95A5A 1px solid"});
+					$("#txtUserPassConfirm").css({"border":"#E95A5A 1px solid"});
+				} else {
+					console.log("emit try to create user");
+					socket.emit("try to create user", {"email":sEmail, "firstname":sFirstName,"lastname":sLastName,"pass":sUserPass});
+				}
+			} else {
+				$(".txtFeedBack").text("Please fill out form").hide().fadeIn('slow');
+				$("#txtUserPass").css({"border":"#E95A5A 1px solid"});
+				$("#txtUserPassConfirm").css({"border":"#E95A5A 1px solid"});
+			}
+		};
+
+		socket.on("User created", function(jData){
+			var message = jData.message;
+			$(".txtFeedBack").text(message).hide().fadeIn('slow');
+			$("#stepBorderRed").animate({width: 500}, 500 );
+			var rememberLogin = {'token': jData.token};
+			localStorage.setItem('rememberLogin', JSON.stringify(rememberLogin));
+			var retrievedObject = localStorage.getItem('rememberLogin');
+
+			console.log('retrievedObject: ', JSON.parse(retrievedObject));
+			window.location.assign('/dash')
+		});
+
+		socket.on("Email already registered", function(jData){
+			var message = jData.message;
+			backToOne();
+			$("#txtEmail").css({"border":"#E95A5A 1px solid"});
+			$(".txtFeedBack").text(message).hide().fadeIn('slow');
+		});
+
+		socket.on("Password is invalid", function(jData){
+			var message = jData.message;
+			console.log(message);
+			backToTwo();
+			$("#txtUserPass").css({"border":"#E95A5A 1px solid"});
+			$("#txtUserPassConfirm").css({"border":"#E95A5A 1px solid"});
+			$(".txtFeedBack").text(message).hide().fadeIn('slow');
+		});
+
+	</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

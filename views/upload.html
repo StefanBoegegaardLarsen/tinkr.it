@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Upload</title>
+</head>
+<body>
+
+	<p>Upload file</p>
+	<input type="file" id="siofu_input" />
+	<button id="btnUpload">Upload File</button>
+
+	<div id="show_upload"></div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.slim.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="/siofu/client.js"></script>
+	<script>
+
+		var socket = io.connect("localhost:3334");
+		var uploader = new SocketIOFileUpload(socket);
+		uploader.listenOnSubmit(document.getElementById("btnUpload"), document.getElementById("siofu_input"));
+
+		$("#btnUpload").click(function(){
+			var input = $("#siofu_input").val();
+			var filename = input.match(/[^\\/]*$/)[0];
+			console.log("filename: "+filename);
+
+			$("#show_upload").append('<div><a href="/uploads/'+filename+'">link text</a></div>');
+		});
+
+	</script>
+
+</body>
+</html>

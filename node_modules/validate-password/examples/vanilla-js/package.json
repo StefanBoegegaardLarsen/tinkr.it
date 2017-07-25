@@ -1,0 +1,9 @@
+{
+    "name": "validate-password-vanilla-js",
+    "version": "0.0.2",
+    "description": "validate password vanilla JS example",
+    "author": "Mike DeWitt <mdewitt07@gmail.com>",
+    "devDependencies": {
+        "validate-password": "^0.0.2"
+    }
+}

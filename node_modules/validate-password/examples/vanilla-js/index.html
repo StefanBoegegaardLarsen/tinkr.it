@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <h3>Simple password validation</h3>
+        <label>Password:</label>
+        <input id="password" type="password" />
+        <p id="validation-message"></p>
+        <button id="submit-button">Submit</button>
+        
+        <h3>The password can't contain your name</h3>
+        <label>Name:</label>
+        <input id="name" type="text" />
+        
+        <label>Password:</label>
+        <input id="password-forbidden" type="password" />
+        
+        <p id="validation-message-forbidden"></p>
+        <button id="submit-button-forbidden">Submit</button>
+        
+        <script src="node_modules/validate-password/dist/validate-password.min.js"></script>
+        <script src="scripts.js"></script>
+    </body>
+</html>
